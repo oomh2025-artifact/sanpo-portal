@@ -45,18 +45,21 @@ def parse_xml(xml):
     for entry in entries[1:]:
         entry = entry.split("</entry>")[0]
         
-        # タイトル
+       # タイトル
         title = ""
-        m = re.search(r'article_title[\s\S]*?<ja>[\s\S]*?CDATA\[([\s\S]*?)\]\]', entry)
-        if m:
+        # まず<title>タグから取得（最も確実）
+        m = re.search(r'<title><!\[CDATA\[([\s\S]*?)\]\]></title>', entry)
+        if m and not m.group(1).startswith("http"):
             title = m.group(1).strip()
+        # 日本語タイトルがあれば優先
         if not title:
-            m = re.search(r'article_title[\s\S]*?<en>[\s\S]*?CDATA\[([\s\S]*?)\]\]', entry)
+            m = re.search(r'article_title[\s\S]*?<ja><!\[CDATA\[([\s\S]*?)\]\]></ja>', entry)
             if m:
                 title = m.group(1).strip()
+        # 英語タイトル
         if not title:
-            m = re.search(r'<title>[\s\S]*?CDATA\[([\s\S]*?)\]\]', entry)
-            if m and not m.group(1).startswith("http"):
+            m = re.search(r'article_title[\s\S]*?<en><!\[CDATA\[([\s\S]*?)\]\]></en>', entry)
+            if m:
                 title = m.group(1).strip()
         
         if not title:
