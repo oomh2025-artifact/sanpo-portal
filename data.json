@@ -1,5 +1,5 @@
 {
-  "updated": "2026-01-08 22:51",
+  "updated": "2026-01-08 23:05",
   "journals": [
     {
       "id": "sangyoeisei",
@@ -84,7 +84,7 @@
       "desc": "世界各国の産業保健研究を掲載する国際英文誌。オープンアクセス。",
       "articles": [
         {
-          "title": "Ten-year trends in long-term sickness absence among Japanese public servants: 2009–2018",
+          "title": "Shinichi IWASAKI",
           "authors": [
             "Shinichi IWASAKI",
             "Yasuhiko DEGUCHI",
@@ -98,7 +98,7 @@
           "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0169/_article/-char/ja/"
         },
         {
-          "title": "Relationship among work–treatment balance, job stress, and work engagement in Japan: a cross-sectional study",
+          "title": "Kazunori IKEGAMI",
           "authors": [
             "Kazunori IKEGAMI",
             "Hajime ANDO",
@@ -112,7 +112,7 @@
           "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0250/_article/-char/ja/"
         },
         {
-          "title": "Characteristics of workers’ compensation claim applications for COVID-19 infections in South Korea",
+          "title": "Min-Woo NAM",
           "authors": [
             "Min-Woo NAM",
             "Jinjoo CHUNG",
@@ -126,7 +126,7 @@
           "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0271/_article/-char/ja/"
         },
         {
-          "title": "Cross-sectional associations between oral diseases and work productivity loss among regular employees in Japan",
+          "title": "Yukihiro SATO",
           "authors": [
             "Yukihiro SATO",
             "Eiji YOSHIOKA",
@@ -139,7 +139,7 @@
           "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0274/_article/-char/ja/"
         },
         {
-          "title": "Walking the tightrope between work and home: the role of job/home resources in the relation between job/home demands and employee health and well-being",
+          "title": "Tianchang JI",
           "authors": [
             "Tianchang JI",
             "Jan DE JONGE",
@@ -406,5 +406,6 @@
         }
       ]
     }
-  ]
+  ],
+  "news": []
 }
