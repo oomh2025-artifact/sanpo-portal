@@ -1,0 +1,133 @@
+{
+  "updated": "2025-01-09 12:00",
+  "journals": [
+    {
+      "id": "sangyoeisei",
+      "name": "産業衛生学雑誌",
+      "publisher": "日本産業衛生学会",
+      "url": "https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja",
+      "articles": [
+        {
+          "title": "製造業における腰痛予防プログラムの効果",
+          "authors": ["山田太郎", "佐藤花子", "鈴木一郎"],
+          "volume": "67",
+          "number": "6",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/6/67_2025-001/_article/-char/ja"
+        },
+        {
+          "title": "テレワーク環境下での産業保健活動の課題と対策",
+          "authors": ["田中健二", "高橋美咲"],
+          "volume": "67",
+          "number": "6",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/6/67_2025-002/_article/-char/ja"
+        },
+        {
+          "title": "化学物質管理者の選任状況に関する全国調査",
+          "authors": ["伊藤誠", "渡辺京子", "中村大輔", "小林正明"],
+          "volume": "67",
+          "number": "5",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/5/67_2025-003/_article/-char/ja"
+        }
+      ]
+    },
+    {
+      "id": "indhealth",
+      "name": "Industrial Health",
+      "publisher": "労働安全衛生総合研究所",
+      "url": "https://www.jstage.jst.go.jp/browse/indhealth/-char/ja",
+      "articles": [
+        {
+          "title": "Work-related stress and cardiovascular disease risk in Asian workers",
+          "authors": ["Tanaka K", "Yamamoto S", "Lee JH"],
+          "volume": "63",
+          "number": "1",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2024-0123/_article"
+        },
+        {
+          "title": "Ergonomic interventions for preventing musculoskeletal disorders",
+          "authors": ["Suzuki M", "Wang L"],
+          "volume": "63",
+          "number": "1",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2024-0145/_article"
+        }
+      ]
+    },
+    {
+      "id": "ohpfrev",
+      "name": "産業医学レビュー",
+      "publisher": "産業医学振興財団",
+      "url": "https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja",
+      "articles": [
+        {
+          "title": "産業医に求められるコンピテンシーの変遷",
+          "authors": ["森田洋一"],
+          "volume": "37",
+          "number": "3",
+          "year": "2024",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_2024-01/_article/-char/ja"
+        }
+      ]
+    },
+    {
+      "id": "jjomh",
+      "name": "産業精神保健",
+      "publisher": "日本産業精神保健学会",
+      "url": "https://www.jstage.jst.go.jp/browse/jjomh/-char/ja",
+      "articles": [
+        {
+          "title": "職場におけるハラスメント被害者の心理的影響",
+          "authors": ["木村恵理", "松本雅人"],
+          "volume": "32",
+          "number": "4",
+          "year": "2024",
+          "link": "https://www.jstage.jst.go.jp/article/jjomh/32/4/32_2024-015/_article/-char/ja"
+        },
+        {
+          "title": "復職支援における産業医と精神科医の連携",
+          "authors": ["吉田健太郎", "佐々木愛"],
+          "volume": "32",
+          "number": "4",
+          "year": "2024",
+          "link": "https://www.jstage.jst.go.jp/article/jjomh/32/4/32_2024-018/_article/-char/ja"
+        }
+      ]
+    },
+    {
+      "id": "jaohn",
+      "name": "日本産業看護学会誌",
+      "publisher": "日本産業看護学会",
+      "url": "https://www.jstage.jst.go.jp/browse/jaohn/-char/ja",
+      "articles": [
+        {
+          "title": "産業看護職のキャリア発達に関する質的研究",
+          "authors": ["原田明子", "斎藤由香"],
+          "volume": "11",
+          "number": "2",
+          "year": "2024",
+          "link": "https://www.jstage.jst.go.jp/article/jaohn/11/2/11_2024-005/_article/-char/ja"
+        }
+      ]
+    },
+    {
+      "id": "jaohl",
+      "name": "産業保健法学会誌",
+      "publisher": "日本産業保健法学会",
+      "url": "https://www.jstage.jst.go.jp/browse/jaohl/-char/ja",
+      "articles": [
+        {
+          "title": "労働安全衛生法改正と化学物質規制の動向",
+          "authors": ["岡本正樹"],
+          "volume": "4",
+          "number": "1",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_2025-001/_article/-char/ja"
+        }
+      ]
+    }
+  ]
+}
