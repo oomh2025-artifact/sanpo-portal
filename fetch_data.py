@@ -38,6 +38,11 @@ def fetch_journal(journal_id, count=5):
         print(f"  Error fetching {journal_id}: {e}")
         return []
 
+def extract_cdata(text):
+    """CDATAの中身を抽出"""
+    m = re.search(r'<!\[CDATA\[([\s\S]*?)\]\]>', text)
+    return m.group(1).strip() if m else text.strip()
+
 def parse_xml(xml):
     articles = []
     entries = xml.split("<entry>")
@@ -45,46 +50,56 @@ def parse_xml(xml):
     for entry in entries[1:]:
         entry = entry.split("</entry>")[0]
         
-       # タイトル
+        # タイトル取得（article_titleを優先）
         title = ""
-        # まず<title>タグから取得（最も確実）
-        m = re.search(r'<title><!\[CDATA\[([\s\S]*?)\]\]></title>', entry)
-        if m and not m.group(1).startswith("http"):
-            title = m.group(1).strip()
-        # 日本語タイトルがあれば優先
+        
+        # 1. article_title内の日本語タイトル
+        m = re.search(r'<article_title[^>]*>([\s\S]*?)</article_title>', entry)
+        if m:
+            article_title_block = m.group(1)
+            # 日本語タイトル
+            ja_m = re.search(r'<ja>([\s\S]*?)</ja>', article_title_block)
+            if ja_m:
+                title = extract_cdata(ja_m.group(1))
+            # 英語タイトル（日本語がない場合）
+            if not title:
+                en_m = re.search(r'<en>([\s\S]*?)</en>', article_title_block)
+                if en_m:
+                    title = extract_cdata(en_m.group(1))
+        
+        # 2. article_titleがない場合、titleタグから（URLでないもの）
         if not title:
-            m = re.search(r'article_title[\s\S]*?<ja><!\[CDATA\[([\s\S]*?)\]\]></ja>', entry)
-            if m:
-                title = m.group(1).strip()
-        # 英語タイトル
-        if not title:
-            m = re.search(r'article_title[\s\S]*?<en><!\[CDATA\[([\s\S]*?)\]\]></en>', entry)
-            if m:
-                title = m.group(1).strip()
+            for m in re.finditer(r'<title[^>]*>([\s\S]*?)</title>', entry):
+                candidate = extract_cdata(m.group(1))
+                if candidate and not candidate.startswith("http"):
+                    title = candidate
+                    break
         
         if not title:
             continue
         
-        # 著者
+        # 著者取得
         authors = []
         author_match = re.search(r'<author>([\s\S]*?)</author>', entry)
         if author_match:
             author_block = author_match.group(1)
+            # 日本語著者名を優先
             ja_block = re.search(r'<ja>([\s\S]*?)</ja>', author_block)
             if ja_block:
-                names = re.findall(r'CDATA\[([\s\S]*?)\]\]', ja_block.group(1))
+                names = re.findall(r'<!\[CDATA\[([\s\S]*?)\]\]>', ja_block.group(1))
                 authors = [n.strip() for n in names if n.strip()]
-            else:
+            # 英語著者名
+            if not authors:
                 en_block = re.search(r'<en>([\s\S]*?)</en>', author_block)
                 if en_block:
-                    names = re.findall(r'CDATA\[([\s\S]*?)\]\]', en_block.group(1))
+                    names = re.findall(r'<!\[CDATA\[([\s\S]*?)\]\]>', en_block.group(1))
                     authors = [n.strip() for n in names if n.strip()]
         
         # 巻号年
-        vol = re.search(r'volume>(\d+)<', entry)
-        num = re.search(r'number>([^<]+)<', entry)
-        year = re.search(r'pubyear>(\d+)<', entry)
-        link = re.search(r'link[^>]*href="([^"]+)"', entry)
+        vol = re.search(r'<prism:volume>(\d+)</prism:volume>', entry)
+        num = re.search(r'<prism:number>([^<]+)</prism:number>', entry)
+        year = re.search(r'<pubyear>(\d+)</pubyear>', entry)
+        link = re.search(r'<link[^>]*href="([^"]+)"', entry)
         
         articles.append({
             "title": title,
