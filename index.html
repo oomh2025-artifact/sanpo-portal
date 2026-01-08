@@ -256,7 +256,9 @@
 
     async function fetchJournalDirect(j) {
       try {
-        const apiUrl = 'https://api.jstage.jst.go.jp/searchapi/do?service=3&cdjournal=' + j.cdjournal + '&count=5';
+        // sortflg=2: 巻号順ソート, pubyearfrom: 最新年のみ取得
+        const currentYear = new Date().getFullYear();
+        const apiUrl = 'https://api.jstage.jst.go.jp/searchapi/do?service=3&cdjournal=' + j.cdjournal + '&count=10&sortflg=2&pubyearfrom=' + (currentYear - 1);
         const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
         
         const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
@@ -278,18 +280,39 @@
         const articles = [];
         const entries = xml.split('<entry>');
         
+        // 最新の巻号を記録
+        let latestVol = 0, latestNo = 0, latestYear = 0;
+        
         for (let i = 1; i < entries.length && articles.length < 3; i++) {
           const entry = entries[i];
-          let title = '';
+          
+          // 巻号情報を取得
+          const vol = parseInt(clean(getTag(entry, 'prism:volume'))) || 0;
+          const no = parseInt(clean(getTag(entry, 'prism:number'))) || 0;
+          const year = parseInt(clean(getTag(entry, 'pubyear'))) || 0;
+          
+          // 最新の巻号を更新
+          if (year > latestYear || (year === latestYear && vol > latestVol) || (year === latestYear && vol === latestVol && no > latestNo)) {
+            latestYear = year;
+            latestVol = vol;
+            latestNo = no;
+          }
           
           // タイトル取得: <article_title><ja><![CDATA[タイトル]]></ja></article_title>
+          let title = '';
           const articleTitle = getTag(entry, 'article_title');
           if (articleTitle) {
             const jaTitle = getTag(articleTitle, 'ja');
-            title = clean(jaTitle || getTag(articleTitle, 'en') || articleTitle);
+            const enTitle = getTag(articleTitle, 'en');
+            title = clean(jaTitle) || clean(enTitle);
           }
+          // article_titleが空の場合、titleタグを試すがURLは除外
           if (!title) {
-            title = clean(getTag(entry, 'title'));
+            const titleTag = clean(getTag(entry, 'title'));
+            // URLでなければ使用
+            if (titleTag && !titleTag.startsWith('http')) {
+              title = titleTag;
+            }
           }
           
           // 著者取得: <author><ja><n><![CDATA[著者名]]></n></ja></author>
@@ -297,7 +320,8 @@
           const authorBlock = getTag(entry, 'author');
           if (authorBlock) {
             const jaAuthor = getTag(authorBlock, 'ja');
-            const src = jaAuthor || getTag(authorBlock, 'en') || authorBlock;
+            const enAuthor = getTag(authorBlock, 'en');
+            const src = jaAuthor || enAuthor || authorBlock;
             const names = [];
             const nRe = /<n>([\s\S]*?)<\/n>/g;
             let m;
@@ -314,18 +338,12 @@
           }
         }
         
-        // 巻号取得
+        // 巻号文字列を生成
         let issue = '';
-        if (entries[1]) {
-          const e = entries[1];
-          const vol = clean(getTag(e, 'prism:volume'));
-          const no = clean(getTag(e, 'prism:number'));
-          const year = clean(getTag(e, 'pubyear'));
-          if (vol) {
-            if (year) issue += year + '年 ';
-            issue += vol + '巻';
-            if (no) issue += no + '号';
-          }
+        if (latestVol > 0) {
+          if (latestYear > 0) issue += latestYear + '年 ';
+          issue += latestVol + '巻';
+          if (latestNo > 0) issue += latestNo + '号';
         }
         
         return {
