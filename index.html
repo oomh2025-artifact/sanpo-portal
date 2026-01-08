@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>産業保健情報ポータル</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
+      background: #f5f7fa; color: #333; line-height: 1.6;
+      min-height: 100vh; padding: 60px 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    .buttons { display: flex; gap: 24px; justify-content: center; margin-bottom: 50px; flex-wrap: wrap; }
+    .btn { 
+      width: 200px; height: 120px; 
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: bold; color: white;
+      text-decoration: none; border-radius: 4px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .btn:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .btn-seido { background: #0078D4; }
+    .btn-articles { background: #F5A623; }
+    .btn-journals { background: #00A86B; }
+    .news-box { 
+      background: white; border: 2px solid #333; border-radius: 4px; 
+      padding: 24px; max-width: 550px; margin: 0 auto;
+    }
+    .news-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 16px; }
+    .news-item { 
+      display: flex; padding: 10px 0; 
+      border-bottom: 1px solid #eee; 
+      text-decoration: none; color: inherit;
+      transition: background 0.2s;
+      gap: 12px;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item:hover { background: #f8f8f8; margin: 0 -12px; padding-left: 12px; padding-right: 12px; }
+    .news-date { color: #666; font-size: 0.9rem; white-space: nowrap; }
+    .news-category { 
+      font-size: 0.8rem; padding: 2px 8px; border-radius: 3px; 
+      white-space: nowrap; font-weight: 500;
+    }
+    .cat-articles { background: #FFF3D0; color: #996600; }
+    .cat-seido { background: #D0E8FF; color: #0055AA; }
+    .news-text { color: #333; flex: 1; }
+    .loading { color: #999; font-style: italic; padding: 20px 0; }
+    footer { text-align: center; padding: 40px; color: #999; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="buttons">
+      <a href="seido.html" class="btn btn-seido">制度改正</a>
+      <a href="articles.html" class="btn btn-articles">最新記事</a>
+      <a href="journals.html" class="btn btn-journals">雑誌一覧</a>
+    </div>
+    
+    <div class="news-box">
+      <div class="news-title">New:</div>
+      <div id="news-list">
+        <div class="loading">読み込み中...</div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>産業保健情報ポータル</footer>
+
+  <script>
+    // ★ここを自分のWorker URLに変更
+    const WORKER_URL = "https://sanpo-portal.oomh2025.workers.dev";
+    
+    const JOURNAL_NAMES = {
+      sangyoeisei: "産業衛生学雑誌",
+      indhealth: "Industrial Health",
+      ohpfrev: "産業医学レビュー",
+      jjomh: "産業精神保健",
+      jaohn: "日本産業看護学会誌",
+      jaohl: "産業保健法学会誌",
+    };
+
+    async function loadNews() {
+      const container = document.getElementById("news-list");
+      
+      try {
+        const res = await fetch(WORKER_URL);
+        const data = await res.json();
+        
+        // 全雑誌から最新記事を集めてソート
+        const allArticles = [];
+        for (const journal of data.journals) {
+          for (const article of journal.articles.slice(0, 2)) {
+            allArticles.push({
+              ...article,
+              journalId: journal.id,
+              journalName: JOURNAL_NAMES[journal.id] || journal.id,
+            });
+          }
+        }
+        
+        // 年・巻でソート（降順）
+        allArticles.sort((a, b) => {
+          const yearDiff = (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
+          if (yearDiff !== 0) return yearDiff;
+          return (parseInt(b.volume) || 0) - (parseInt(a.volume) || 0);
+        });
+
+        // 上位5件を表示
+        const newsItems = allArticles.slice(0, 5);
+        
+        if (newsItems.length === 0) {
+          container.innerHTML = '<div class="loading">記事が見つかりませんでした</div>';
+          return;
+        }
+
+        container.innerHTML = newsItems.map(article => {
+          const dateStr = article.year ? `${article.year}/${article.volume || ""}` : "";
+          const shortTitle = article.title.length > 35 
+            ? article.title.substring(0, 35) + "..." 
+            : article.title;
+          
+          return `
+            <a href="${article.link || 'articles.html'}" target="${article.link ? '_blank' : '_self'}" class="news-item">
+              <span class="news-date">${dateStr}</span>
+              <span class="news-category cat-articles">最新記事</span>
+              <span class="news-text">${shortTitle}</span>
+            </a>
+          `;
+        }).join("");
+        
+      } catch (e) {
+        console.error(e);
+        container.innerHTML = '<div class="loading">データの取得に失敗しました。<a href="articles.html">最新記事ページ</a>をご確認ください。</div>';
+      }
+    }
+
+    loadNews();
+  </script>
+</body>
+</html>

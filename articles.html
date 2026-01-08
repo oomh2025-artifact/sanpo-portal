@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>最新記事 - 産業保健情報ポータル</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
+      background: #f5f7fa; color: #333; line-height: 1.6;
+      min-height: 100vh; padding: 40px 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    .back { display: inline-block; margin-bottom: 24px; color: #0066cc; text-decoration: none; font-size: 0.95rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { 
+      color: #F5A623; font-size: 1.6rem; margin-bottom: 8px; 
+      padding-bottom: 12px; border-bottom: 4px solid #F5A623; 
+    }
+    .updated { font-size: 0.85rem; color: #888; margin-bottom: 30px; }
+    .journal { 
+      background: white; border-radius: 8px; padding: 24px; 
+      margin-bottom: 24px; border: 1px solid #e0e0e0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .journal h2 { font-size: 1.15rem; color: #333; margin-bottom: 4px; }
+    .journal h2 a { color: inherit; text-decoration: none; }
+    .journal h2 a:hover { color: #F5A623; }
+    .journal .meta { font-size: 0.85rem; color: #888; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+    .article { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+    .article:last-child { border-bottom: none; }
+    .article-title { font-size: 0.95rem; margin-bottom: 4px; }
+    .article-title a { color: #0066cc; text-decoration: none; }
+    .article-title a:hover { text-decoration: underline; }
+    .article-meta { font-size: 0.85rem; color: #666; }
+    .article-issue { font-size: 0.8rem; color: #999; margin-top: 2px; }
+    .loading { 
+      text-align: center; padding: 60px; color: #888; 
+      background: white; border-radius: 8px; border: 1px solid #e0e0e0;
+    }
+    .loading-spinner { 
+      width: 40px; height: 40px; border: 3px solid #f0f0f0; 
+      border-top-color: #F5A623; border-radius: 50%; 
+      animation: spin 1s linear infinite; margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error { color: #cc0000; }
+    .no-data { color: #999; font-style: italic; padding: 12px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back">← トップに戻る</a>
+    <h1>最新記事</h1>
+    <div class="updated" id="updated"></div>
+    <div id="content">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        J-STAGEから最新論文を取得中...
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ★ここを自分のWorker URLに変更
+    const WORKER_URL = "https://sanpo-portal.oomh2025.workers.dev";
+    
+    const JOURNAL_INFO = {
+      sangyoeisei: { name: "産業衛生学雑誌", publisher: "日本産業衛生学会", url: "https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja" },
+      indhealth: { name: "Industrial Health", publisher: "労働安全衛生総合研究所", url: "https://www.jstage.jst.go.jp/browse/indhealth/-char/ja" },
+      ohpfrev: { name: "産業医学レビュー", publisher: "産業医学振興財団", url: "https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja" },
+      jjomh: { name: "産業精神保健", publisher: "日本産業精神保健学会", url: "https://www.jstage.jst.go.jp/browse/jjomh/-char/ja" },
+      jaohn: { name: "日本産業看護学会誌", publisher: "日本産業看護学会", url: "https://www.jstage.jst.go.jp/browse/jaohn/-char/ja" },
+      jaohl: { name: "産業保健法学会誌", publisher: "日本産業保健法学会", url: "https://www.jstage.jst.go.jp/browse/jaohl/-char/ja" },
+    };
+
+    async function loadArticles() {
+      const container = document.getElementById("content");
+      const updatedEl = document.getElementById("updated");
+      
+      try {
+        const res = await fetch(WORKER_URL);
+        if (!res.ok) throw new Error("API error");
+        const data = await res.json();
+        
+        // 更新日時
+        const now = new Date();
+        updatedEl.textContent = `最終取得: ${now.toLocaleString("ja-JP")}`;
+        
+        // 各雑誌を表示
+        let html = "";
+        for (const journal of data.journals) {
+          const info = JOURNAL_INFO[journal.id] || { name: journal.id, publisher: "", url: "#" };
+          
+          html += `<div class="journal">
+            <h2><a href="${info.url}" target="_blank">${info.name}</a></h2>
+            <div class="meta">${info.publisher}</div>`;
+          
+          if (journal.articles && journal.articles.length > 0) {
+            for (const article of journal.articles) {
+              const authors = article.authors ? article.authors.slice(0, 3).join(", ") : "";
+              const authorsDisplay = article.authors && article.authors.length > 3 
+                ? authors + " 他" : authors;
+              const issue = article.year 
+                ? `${article.year}年 ${article.volume || ""}巻${article.number ? article.number + "号" : ""}`
+                : "";
+              
+              html += `<div class="article">
+                <div class="article-title">
+                  ${article.link 
+                    ? `<a href="${article.link}" target="_blank">${article.title}</a>`
+                    : article.title}
+                </div>
+                ${authorsDisplay ? `<div class="article-meta">${authorsDisplay}</div>` : ""}
+                ${issue ? `<div class="article-issue">${issue}</div>` : ""}
+              </div>`;
+            }
+          } else {
+            html += `<div class="no-data">論文データがありません</div>`;
+          }
+          
+          html += `</div>`;
+        }
+        
+        container.innerHTML = html;
+        
+      } catch (e) {
+        console.error(e);
+        container.innerHTML = `
+          <div class="loading error">
+            <p>データの取得に失敗しました。</p>
+            <p style="margin-top:12px;font-size:0.9rem;">しばらく待ってからページを再読み込みしてください。</p>
+          </div>
+        `;
+      }
+    }
+
+    loadArticles();
+  </script>
+</body>
+</html>

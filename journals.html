@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雑誌一覧 - 産業保健情報ポータル</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
+      background: #f5f7fa; color: #333; line-height: 1.6;
+      min-height: 100vh; padding: 40px 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    .back { display: inline-block; margin-bottom: 24px; color: #0066cc; text-decoration: none; font-size: 0.95rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { 
+      color: #00A86B; font-size: 1.6rem; margin-bottom: 30px; 
+      padding-bottom: 12px; border-bottom: 4px solid #00A86B; 
+    }
+    .journal-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .journal-card { 
+      background: white; padding: 24px; border-radius: 8px; 
+      border: 1px solid #e0e0e0; transition: all 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .journal-card:hover { 
+      border-color: #00A86B; 
+      box-shadow: 0 4px 12px rgba(0,168,107,0.15);
+      transform: translateY(-2px);
+    }
+    .journal-card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+    .journal-card h2 a { color: #00A86B; text-decoration: none; }
+    .journal-card h2 a:hover { text-decoration: underline; }
+    .journal-card .publisher { font-size: 0.9rem; color: #666; margin-bottom: 12px; }
+    .journal-card .link { 
+      display: inline-block; font-size: 0.85rem; color: #0066cc; 
+      text-decoration: none; padding: 6px 12px; 
+      background: #f0f7ff; border-radius: 4px;
+    }
+    .journal-card .link:hover { background: #e0efff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back">← トップに戻る</a>
+    <h1>雑誌一覧</h1>
+    <div class="journal-grid">
+      <div class="journal-card">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja" target="_blank">産業衛生学雑誌</a></h2>
+        <p class="publisher">日本産業衛生学会</p>
+        <a href="https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja" target="_blank" class="link">J-STAGEで見る →</a>
+      </div>
+      
+      <div class="journal-card">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/indhealth/-char/ja" target="_blank">Industrial Health</a></h2>
+        <p class="publisher">労働安全衛生総合研究所</p>
+        <a href="https://www.jstage.jst.go.jp/browse/indhealth/-char/ja" target="_blank" class="link">J-STAGEで見る →</a>
+      </div>
+      
+      <div class="journal-card">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja" target="_blank">産業医学レビュー</a></h2>
+        <p class="publisher">産業医学振興財団</p>
+        <a href="https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja" target="_blank" class="link">J-STAGEで見る →</a>
+      </div>
+      
+      <div class="journal-card">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/jjomh/-char/ja" target="_blank">産業精神保健</a></h2>
+        <p class="publisher">日本産業精神保健学会</p>
+        <a href="https://www.jstage.jst.go.jp/browse/jjomh/-char/ja" target="_blank" class="link">J-STAGEで見る →</a>
+      </div>
+      
+      <div class="journal-card">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/jaohn/-char/ja" target="_blank">日本産業看護学会誌</a></h2>
+        <p class="publisher">日本産業看護学会</p>
+        <a href="https://www.jstage.jst.go.jp/browse/jaohn/-char/ja" target="_blank" class="link">J-STAGEで見る →</a>
+      </div>
+      
+      <div class="journal-card">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/jaohl/-char/ja" target="_blank">産業保健法学会誌</a></h2>
+        <p class="publisher">日本産業保健法学会</p>
+        <a href="https://www.jstage.jst.go.jp/browse/jaohl/-char/ja" target="_blank" class="link">J-STAGEで見る →</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
