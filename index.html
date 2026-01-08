@@ -4,545 +4,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>産業保健情報ポータル</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Sans JP', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.5; font-size: 14px; }
-
-    .header { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 0.6rem 1.5rem; position: sticky; top: 0; z-index: 100; }
-    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-size: 1rem; font-weight: 700; color: #1e293b; cursor: pointer; }
-    .logo span { color: #3b82f6; }
-    .nav { display: flex; gap: 0.25rem; }
-    .nav-btn { padding: 0.35rem 0.7rem; border: none; background: transparent; color: #64748b; font-size: 0.75rem; font-weight: 500; cursor: pointer; border-radius: 4px; transition: all 0.15s; font-family: inherit; }
-    .nav-btn:hover { background: #f1f5f9; color: #1e293b; }
-    .nav-btn.active { background: #1e293b; color: #fff; }
-
-    .main { max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem; }
-    .page { display: none; animation: fadeIn 0.15s ease; }
-    .page.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .main-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
-    @media (max-width: 768px) { .main-cards { grid-template-columns: 1fr; } }
-    .main-card { padding: 1.25rem; border-radius: 8px; color: #fff; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; border: none; text-align: left; font-family: inherit; }
-    .main-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-    .main-card.blue { background: #2563eb; }
-    .main-card.amber { background: #f59e0b; }
-    .main-card.green { background: #10b981; }
-    .main-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.15rem; }
-    .main-card p { font-size: 0.7rem; opacity: 0.9; }
-
-    .news-box { background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; }
-    .news-header { background: #1e293b; color: #fff; padding: 0.5rem 0.75rem; font-weight: 700; font-size: 0.8rem; }
-    .news-list { padding: 0.25rem; }
-    .news-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.6rem; border-radius: 4px; cursor: pointer; transition: background 0.15s; text-decoration: none; color: inherit; }
-    .news-item:hover { background: #f1f5f9; }
-    .news-tag { font-size: 0.6rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 8px; white-space: nowrap; }
-    .news-tag.blue { background: #dbeafe; color: #1d4ed8; }
-    .news-tag.amber { background: #fef3c7; color: #b45309; }
-    .news-text { flex: 1; font-size: 0.75rem; }
-    .news-arrow { color: #94a3b8; font-size: 0.7rem; }
-
-    .page-title { margin-bottom: 0.75rem; }
-    .page-title h2 { font-size: 1.1rem; font-weight: 700; }
-    .page-title p { color: #64748b; font-size: 0.7rem; }
-
-    .filter-bar { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.75rem; }
-    .filter-btn { padding: 0.25rem 0.6rem; border: 1px solid #e2e8f0; background: #fff; border-radius: 12px; font-size: 0.65rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .filter-btn:hover { border-color: #cbd5e1; }
-    .filter-btn.active { background: #1e293b; color: #fff; border-color: #1e293b; }
-
-    .timeline { position: relative; padding-left: 1.25rem; }
-    .timeline::before { content: ''; position: absolute; left: 4px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #3b82f6, #e2e8f0); }
-    .timeline-item { position: relative; margin-bottom: 0.75rem; }
-    .timeline-dot { position: absolute; left: -16px; top: 5px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #e2e8f0; }
-    .timeline-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.75rem; }
-    .timeline-meta { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
-    .timeline-date { font-size: 0.65rem; color: #64748b; font-family: monospace; }
-    .timeline-category { font-size: 0.55rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 3px; color: #fff; }
-    .timeline-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.2rem; }
-    .timeline-summary { font-size: 0.7rem; color: #475569; }
-    .timeline-footer { margin-top: 0.4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem; }
-    .timeline-source { font-size: 0.6rem; color: #94a3b8; }
-    .timeline-link { display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.6rem; color: #3b82f6; text-decoration: none; padding: 0.2rem 0.5rem; background: #eff6ff; border-radius: 3px; transition: background 0.15s; }
-    .timeline-link:hover { background: #dbeafe; }
-
-    .update-info { font-size: 0.65rem; color: #64748b; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
-    .update-info .dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
-    .articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-    @media (max-width: 1000px) { .articles-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 700px) { .articles-grid { grid-template-columns: 1fr; } }
-    .journal-section { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
-    .journal-header { padding: 0.5rem 0.6rem; color: #fff; }
-    .journal-header h3 { font-size: 0.7rem; font-weight: 700; }
-    .journal-header .issue { font-size: 0.55rem; opacity: 0.9; margin-top: 0.1rem; }
-    .journal-articles { padding: 0.4rem; flex: 1; }
-    .article-item { padding: 0.4rem; background: #f8fafc; border-radius: 3px; margin-bottom: 0.3rem; }
-    .article-item:last-child { margin-bottom: 0; }
-    .article-title { font-weight: 600; font-size: 0.65rem; line-height: 1.35; margin-bottom: 0.15rem; }
-    .article-authors { font-size: 0.55rem; color: #64748b; }
-    .journal-footer { padding: 0.4rem 0.5rem; border-top: 1px solid #e2e8f0; background: #f8fafc; }
-    .journal-footer a { font-size: 0.6rem; color: #3b82f6; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.25rem; font-weight: 500; }
-    .journal-footer a:hover { text-decoration: underline; }
-
-    .journal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-    @media (max-width: 800px) { .journal-grid { grid-template-columns: 1fr; } }
-    .journal-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; cursor: pointer; transition: all 0.15s; }
-    .journal-card:hover { border-color: #3b82f6; box-shadow: 0 3px 10px rgba(59, 130, 246, 0.1); }
-    .journal-card-header { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.5rem; }
-    .journal-card-icon { width: 32px; height: 32px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
-    .journal-card-info h3 { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.1rem; }
-    .journal-card-info p { font-size: 0.65rem; color: #64748b; }
-    .journal-card-desc { font-size: 0.7rem; color: #475569; line-height: 1.45; background: #f8fafc; padding: 0.6rem; border-radius: 4px; }
-
-    .back-btn { display: inline-flex; align-items: center; gap: 0.25rem; background: none; border: none; color: #64748b; font-size: 0.7rem; cursor: pointer; margin-bottom: 0.5rem; font-family: inherit; }
-    .back-btn:hover { color: #1e293b; }
-    .journal-detail-header { padding: 1.25rem; border-radius: 8px; color: #fff; margin-bottom: 0.75rem; }
-    .journal-detail-header h2 { font-size: 1.1rem; margin-bottom: 0.1rem; }
-    .journal-detail-header .pub { opacity: 0.8; font-size: 0.7rem; margin-bottom: 0.4rem; }
-    .journal-detail-header .desc { font-size: 0.7rem; opacity: 0.9; margin-bottom: 0.6rem; line-height: 1.45; }
-    .journal-detail-header a { display: inline-block; background: rgba(255,255,255,0.2); color: #fff; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.65rem; text-decoration: none; }
-    .detail-article { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.75rem; margin-bottom: 0.5rem; }
-    .detail-article h4 { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.2rem; }
-    .detail-article .authors { font-size: 0.65rem; color: #64748b; }
-
-    .footer { background: #1e293b; color: #94a3b8; padding: 1rem; margin-top: 1.5rem; text-align: center; font-size: 0.6rem; }
-
-    .sources-section { margin-top: 1.5rem; padding: 1rem; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; }
-    .sources-section h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b; }
-    .sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
-    .source-link { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.75rem; background: #f8fafc; border-radius: 4px; text-decoration: none; color: #334155; font-size: 0.7rem; transition: all 0.15s; }
-    .source-link:hover { background: #e0f2fe; color: #1d4ed8; }
-    .source-link .icon { font-size: 0.8rem; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f5f5; color: #333; line-height: 1.5; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    h1 { font-size: 1.5rem; margin-bottom: 10px; }
+    .status { font-size: 0.85rem; color: #666; margin-bottom: 20px; }
+    .status .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+    .dot.loading { background: #f59e0b; }
+    .dot.success { background: #10b981; }
+    .dot.error { background: #ef4444; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 16px; }
+    .card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .card-header { padding: 12px 16px; color: #fff; }
+    .card-header h2 { font-size: 1rem; font-weight: 600; }
+    .card-header .issue { font-size: 0.75rem; opacity: 0.9; margin-top: 2px; }
+    .card-body { padding: 12px 16px; }
+    .article { padding: 8px 0; border-bottom: 1px solid #eee; }
+    .article:last-child { border-bottom: none; }
+    .article-title { font-size: 0.85rem; font-weight: 500; color: #333; }
+    .article-authors { font-size: 0.75rem; color: #666; margin-top: 2px; }
+    .no-articles { color: #999; font-size: 0.85rem; padding: 10px 0; }
+    .card-footer { padding: 10px 16px; border-top: 1px solid #eee; }
+    .card-footer a { font-size: 0.8rem; color: #3b82f6; text-decoration: none; }
+    .card-footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo" onclick="showPage('home')">産業保健<span>ポータル</span></div>
-      <nav class="nav">
-        <button class="nav-btn" data-page="regulations" onclick="showPage('regulations')">制度改正</button>
-        <button class="nav-btn" data-page="articles" onclick="showPage('articles')">最新記事</button>
-        <button class="nav-btn" data-page="journals" onclick="showPage('journals')">雑誌一覧</button>
-      </nav>
+  <div class="container">
+    <h1>産業保健 最新記事</h1>
+    <div class="status" id="status">
+      <span class="dot loading"></span>
+      <span>読み込み中...</span>
     </div>
-  </header>
-
-  <main class="main">
-    <div id="page-home" class="page active">
-      <div class="main-cards">
-        <button class="main-card blue" onclick="showPage('regulations')">
-          <h2>制度改正</h2>
-          <p>法令・ガイドラインの最新改正情報</p>
-        </button>
-        <button class="main-card amber" onclick="showPage('articles')">
-          <h2>最新記事</h2>
-          <p>各学術誌の最新論文（自動更新）</p>
-        </button>
-        <button class="main-card green" onclick="showPage('journals')">
-          <h2>雑誌一覧</h2>
-          <p>J-STAGE無料閲覧可能な学術誌</p>
-        </button>
-      </div>
-      <div class="news-box">
-        <div class="news-header">Quick Links</div>
-        <div class="news-list">
-          <a class="news-item" href="https://www.mhlw.go.jp/bunya/roudoukijun/anzeneisei12/" target="_blank" rel="noopener">
-            <span class="news-tag blue">厚労省</span>
-            <span class="news-text">ストレスチェック制度について</span>
-            <span class="news-arrow">→</span>
-          </a>
-          <a class="news-item" href="https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja" target="_blank" rel="noopener">
-            <span class="news-tag amber">J-STAGE</span>
-            <span class="news-text">産業衛生学雑誌 最新号</span>
-            <span class="news-arrow">→</span>
-          </a>
-          <a class="news-item" href="https://www.jstage.jst.go.jp/browse/jjomh/-char/ja" target="_blank" rel="noopener">
-            <span class="news-tag amber">J-STAGE</span>
-            <span class="news-text">産業精神保健 最新号</span>
-            <span class="news-arrow">→</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div id="page-regulations" class="page">
-      <div class="page-title">
-        <h2>制度改正</h2>
-        <p>産業保健に関する法令・ガイドラインの改正情報</p>
-      </div>
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterRegulations('all', this)">すべて</button>
-        <button class="filter-btn" onclick="filterRegulations('ストレスチェック', this)">ストレスチェック</button>
-        <button class="filter-btn" onclick="filterRegulations('化学物質管理', this)">化学物質管理</button>
-        <button class="filter-btn" onclick="filterRegulations('労働時間', this)">労働時間</button>
-        <button class="filter-btn" onclick="filterRegulations('ハラスメント', this)">ハラスメント</button>
-      </div>
-      <div class="timeline" id="timeline"></div>
-      <div class="sources-section">
-        <h3>📚 公式情報源</h3>
-        <div class="sources-grid">
-          <a class="source-link" href="https://www.mhlw.go.jp/bunya/roudoukijun/anzeneisei12/" target="_blank" rel="noopener"><span class="icon">🏛️</span> ストレスチェック制度（厚労省）</a>
-          <a class="source-link" href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/anzen/anzeneisei02.html" target="_blank" rel="noopener"><span class="icon">🏛️</span> 化学物質対策（厚労省）</a>
-          <a class="source-link" href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000148322.html" target="_blank" rel="noopener"><span class="icon">🏛️</span> 働き方改革（厚労省）</a>
-          <a class="source-link" href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/koyoukintou/seisaku06/index.html" target="_blank" rel="noopener"><span class="icon">🏛️</span> ハラスメント対策（厚労省）</a>
-          <a class="source-link" href="https://www.jaish.gr.jp/" target="_blank" rel="noopener"><span class="icon">📖</span> 安全衛生情報センター</a>
-          <a class="source-link" href="https://kokoro.mhlw.go.jp/" target="_blank" rel="noopener"><span class="icon">💙</span> こころの耳（厚労省）</a>
-          <a class="source-link" href="https://www.johas.go.jp/" target="_blank" rel="noopener"><span class="icon">🏥</span> 労働者健康安全機構</a>
-          <a class="source-link" href="https://elaws.e-gov.go.jp/" target="_blank" rel="noopener"><span class="icon">⚖️</span> e-Gov法令検索</a>
-        </div>
-      </div>
-    </div>
-
-    <div id="page-articles" class="page">
-      <div class="page-title">
-        <h2>最新記事</h2>
-        <p>各学術誌の最新論文（J-STAGEから自動取得）</p>
-      </div>
-      <div class="update-info" id="update-info"><span class="dot" style="background:#94a3b8"></span><span>読み込み中...</span></div>
-      <div class="articles-grid" id="articles-list">
-        <div style="grid-column: 1/-1; text-align:center; padding:2rem; color:#64748b;">J-STAGEから論文情報を取得しています...</div>
-      </div>
-    </div>
-
-    <div id="page-journals" class="page">
-      <div class="page-title">
-        <h2>雑誌一覧</h2>
-        <p>J-STAGEで無料閲覧可能な産業保健関連学術誌</p>
-      </div>
-      <div class="journal-grid" id="journal-grid">
-        <div style="grid-column: 1/-1; text-align:center; padding:2rem; color:#64748b;">雑誌情報を取得しています...</div>
-      </div>
-    </div>
-
-    <div id="page-journal-detail" class="page">
-      <button class="back-btn" onclick="showPage('journals')">← 雑誌一覧に戻る</button>
-      <div id="journal-detail-content"></div>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <p>産業保健に関する法令・ガイドライン・学術情報の収集を目的としたポータルサイトです</p>
-    <p style="margin-top: 0.2rem; opacity: 0.7;">※ 論文情報はJ-STAGE Web APIからリアルタイムで取得しています</p>
-  </footer>
+    <div class="grid" id="journals"></div>
+  </div>
 
   <script>
-    // ========================================
-    // 論文データ（Netlify Functionからリアルタイム取得）
-    // ========================================
-    let articlesData = null;
-    
-    // 雑誌の説明文（APIには含まれないため静的に保持）
-    const JOURNAL_DESCRIPTIONS = {
-      "sangyoeisei": "日本産業衛生学会の機関誌。原著論文、総説、事例報告などを掲載。",
-      "indhealth": "国際的査読付き英文誌。産業医学、人間工学、産業衛生など幅広い分野をカバー。",
-      "ohpfrev": "産業医学領域の重要テーマについて専門家による総説論文を掲載。",
-      "jjomh": "職場のメンタルヘルスに特化した専門誌。",
-      "jaohn": "産業看護の実践、教育、両立支援における看護職の役割などを掲載。",
-      "jaohl": "産業保健法学に関する専門誌。法の知見を基礎に現場課題の解決を探求。"
+    const COLORS = {
+      sangyoeisei: '#2563eb',
+      indhealth: '#059669',
+      ohpfrev: '#dc2626',
+      jjomh: '#7c3aed',
+      jaohn: '#db2777',
+      jaohl: '#1d4ed8'
     };
 
-    // 雑誌リスト
-    const JOURNALS_CONFIG = [
-      { id: 'sangyoeisei', name: '産業衛生学雑誌', publisher: '日本産業衛生学会', color: '#0066cc', cdjournal: 'sangyoeisei' },
-      { id: 'indhealth', name: 'Industrial Health', publisher: '労働安全衛生総合研究所', color: '#006644', cdjournal: 'indhealth' },
-      { id: 'ohpfrev', name: '産業医学レビュー', publisher: '産業医学振興財団', color: '#cc3300', cdjournal: 'ohpfrev' },
-      { id: 'jjomh', name: '産業精神保健', publisher: '日本産業精神保健学会', color: '#9933cc', cdjournal: 'jjomh' },
-      { id: 'jaohn', name: '日本産業看護学会誌', publisher: '日本産業看護学会', color: '#e91e63', cdjournal: 'jaohn' },
-      { id: 'jaohl', name: '産業保健法学会誌', publisher: '日本産業保健法学会', color: '#336699', cdjournal: 'jaohl' },
-    ];
-
-    async function fetchJournalDirect(j) {
+    async function loadData() {
+      const statusEl = document.getElementById('status');
+      const journalsEl = document.getElementById('journals');
+      
       try {
-        const currentYear = new Date().getFullYear();
-        const apiUrl = 'https://api.jstage.jst.go.jp/searchapi/do?service=3&cdjournal=' + j.cdjournal + '&count=10&sortflg=2&pubyearfrom=' + (currentYear - 1);
-        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
-        
-        const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(15000) });
+        const res = await fetch('/.netlify/functions/jstage');
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        const xmlText = await res.text();
+        const data = await res.json();
         
-        // DOMParserでXMLをパース
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(xmlText, 'text/xml');
-        const entries = xml.querySelectorAll('entry');
+        statusEl.innerHTML = '<span class="dot success"></span><span>最終取得: ' + data.updated_at + '</span>';
         
-        console.log(j.name + ': ' + entries.length + ' entries found');
-        
-        const articles = [];
-        let latestVol = 0, latestNo = 0, latestYear = 0;
-        
-        entries.forEach(function(entry, idx) {
-          if (articles.length >= 3) return;
+        journalsEl.innerHTML = data.journals.map(function(j) {
+          const color = COLORS[j.id] || '#666';
+          let articlesHtml = '';
           
-          // 巻号情報
-          const volEl = entry.querySelector('prism\\:volume, volume');
-          const noEl = entry.querySelector('prism\\:number, number');
-          const yearEl = entry.querySelector('pubyear');
-          const vol = volEl ? parseInt(volEl.textContent) || 0 : 0;
-          const no = noEl ? parseInt(noEl.textContent) || 0 : 0;
-          const year = yearEl ? parseInt(yearEl.textContent) || 0 : 0;
-          
-          if (year > latestYear || (year === latestYear && vol > latestVol) || (year === latestYear && vol === latestVol && no > latestNo)) {
-            latestYear = year; latestVol = vol; latestNo = no;
+          if (j.articles && j.articles.length > 0) {
+            articlesHtml = j.articles.map(function(a) {
+              return '<div class="article">' +
+                '<div class="article-title">' + escapeHtml(a.title) + '</div>' +
+                (a.authors ? '<div class="article-authors">' + escapeHtml(a.authors) + '</div>' : '') +
+                '</div>';
+            }).join('');
+          } else {
+            articlesHtml = '<div class="no-articles">記事を取得できませんでした</div>';
           }
           
-          // タイトル取得
-          let title = '';
-          const articleTitleEl = entry.querySelector('article_title');
-          if (articleTitleEl) {
-            const jaEl = articleTitleEl.querySelector('ja');
-            const enEl = articleTitleEl.querySelector('en');
-            if (jaEl) title = jaEl.textContent.trim();
-            else if (enEl) title = enEl.textContent.trim();
-          }
-          if (!title) {
-            const titleEl = entry.querySelector('title');
-            if (titleEl) {
-              const t = titleEl.textContent.trim();
-              if (!t.startsWith('http')) title = t;
-            }
-          }
-          
-          // 著者取得
-          let authors = '';
-          const authorEl = entry.querySelector('author');
-          if (authorEl) {
-            const jaAuthor = authorEl.querySelector('ja');
-            const enAuthor = authorEl.querySelector('en');
-            const authorSrc = jaAuthor || enAuthor || authorEl;
-            const nameEls = authorSrc.querySelectorAll('n');
-            const names = [];
-            nameEls.forEach(function(n) {
-              const name = n.textContent.trim();
-              if (name) names.push(name);
-            });
-            if (names.length > 2) authors = names[0] + ' 他';
-            else if (names.length > 0) authors = names.join(', ');
-          }
-          
-          console.log('  [' + idx + '] title=' + title.slice(0,30) + '... authors=' + authors);
-          
-          if (title && title.length > 3) {
-            articles.push({ title: title.slice(0, 100), authors: authors });
-          }
-        });
+          return '<div class="card">' +
+            '<div class="card-header" style="background:' + color + '">' +
+              '<h2>' + escapeHtml(j.name) + '</h2>' +
+              (j.latest_issue ? '<div class="issue">' + escapeHtml(j.latest_issue) + '</div>' : '') +
+            '</div>' +
+            '<div class="card-body">' + articlesHtml + '</div>' +
+            '<div class="card-footer"><a href="' + j.url + '" target="_blank">J-STAGEで見る →</a></div>' +
+          '</div>';
+        }).join('');
         
-        let issue = '';
-        if (latestVol > 0) {
-          if (latestYear > 0) issue += latestYear + '年 ';
-          issue += latestVol + '巻';
-          if (latestNo > 0) issue += latestNo + '号';
-        }
-        
-        console.log(j.name + ': ' + articles.length + ' articles, issue=' + issue);
-        
-        return {
-          id: j.id, name: j.name, publisher: j.publisher, color: j.color,
-          url: 'https://www.jstage.jst.go.jp/browse/' + j.cdjournal + '/-char/ja',
-          description: JOURNAL_DESCRIPTIONS[j.id] || '',
-          latest_issue: issue, articles: articles
-        };
       } catch (e) {
-        console.error(j.name + ' ERROR: ' + e.message);
-        return {
-          id: j.id, name: j.name, publisher: j.publisher, color: j.color,
-          url: 'https://www.jstage.jst.go.jp/browse/' + j.cdjournal + '/-char/ja',
-          description: JOURNAL_DESCRIPTIONS[j.id] || '',
-          latest_issue: '', articles: []
-        };
-      }
-    }
-
-    async function loadArticlesData() {
-      try {
-        document.getElementById('update-info').innerHTML = '<span class="dot" style="background:#f59e0b"></span><span>J-STAGEから取得中...</span>';
-        
-        const results = await Promise.all(JOURNALS_CONFIG.map(fetchJournalDirect));
-        
-        articlesData = {
-          updated_at: new Date().toISOString().split('T')[0],
-          journals: results
-        };
-        
-        document.getElementById('update-info').innerHTML = '<span class="dot"></span><span>最終取得: ' + articlesData.updated_at + '（リアルタイム）</span>';
-        renderArticles();
-        renderJournalGrid();
-      } catch (error) {
-        console.error('Error loading articles:', error);
-        document.getElementById('update-info').innerHTML = '<span class="dot" style="background:#ef4444"></span><span>取得失敗 - J-STAGEに直接アクセスしてください</span>';
-        articlesData = getFallbackData();
-        renderArticles();
-        renderJournalGrid();
+        console.error(e);
+        statusEl.innerHTML = '<span class="dot error"></span><span>取得失敗: ' + e.message + '</span>';
+        journalsEl.innerHTML = '<p>データの取得に失敗しました。しばらく経ってから再度お試しください。</p>';
       }
     }
     
-    function getFallbackData() {
-      return {
-        updated_at: "（オフラインデータ）",
-        journals: [
-          { id: "sangyoeisei", name: "産業衛生学雑誌", publisher: "日本産業衛生学会", color: "#0066cc", url: "https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja", description: JOURNAL_DESCRIPTIONS["sangyoeisei"], latest_issue: "", articles: [] },
-          { id: "indhealth", name: "Industrial Health", publisher: "労働安全衛生総合研究所", color: "#006644", url: "https://www.jstage.jst.go.jp/browse/indhealth/-char/ja", description: JOURNAL_DESCRIPTIONS["indhealth"], latest_issue: "", articles: [] },
-          { id: "ohpfrev", name: "産業医学レビュー", publisher: "産業医学振興財団", color: "#cc3300", url: "https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja", description: JOURNAL_DESCRIPTIONS["ohpfrev"], latest_issue: "", articles: [] },
-          { id: "jjomh", name: "産業精神保健", publisher: "日本産業精神保健学会", color: "#9933cc", url: "https://www.jstage.jst.go.jp/browse/jjomh/-char/ja", description: JOURNAL_DESCRIPTIONS["jjomh"], latest_issue: "", articles: [] },
-          { id: "jaohn", name: "日本産業看護学会誌", publisher: "日本産業看護学会", color: "#e91e63", url: "https://www.jstage.jst.go.jp/browse/jaohn/-char/ja", description: JOURNAL_DESCRIPTIONS["jaohn"], latest_issue: "", articles: [] },
-          { id: "jaohl", name: "産業保健法学会誌", publisher: "日本産業保健法学会", color: "#336699", url: "https://www.jstage.jst.go.jp/browse/jaohl/-char/ja", description: JOURNAL_DESCRIPTIONS["jaohl"], latest_issue: "", articles: [] },
-        ]
-      };
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
-
-    // ========================================
-    // 公式情報源URL
-    // ========================================
-    const OFFICIAL_SOURCES = {
-      'ストレスチェック': { name: '厚労省 ストレスチェック制度', url: 'https://www.mhlw.go.jp/bunya/roudoukijun/anzeneisei12/' },
-      '化学物質管理': { name: '厚労省 化学物質対策', url: 'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/anzen/anzeneisei02.html' },
-      '労働時間': { name: '厚労省 働き方改革', url: 'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000148322.html' },
-      'ハラスメント': { name: '厚労省 ハラスメント対策', url: 'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/koyoukintou/seisaku06/index.html' }
-    };
-
-    // ========================================
-    // 制度改正データ
-    // ========================================
-    const regulations = [
-      { id: 1, date: '2026/01', category: 'ストレスチェック', title: 'ストレスチェック制度の義務化対象が全事業場に拡大', summary: '労働安全衛生法の改正により、従業員50人未満の事業場にもストレスチェックの実施が義務化されました。', source: '厚生労働省', color: '#e91e63' },
-      { id: 2, date: '2025/12', category: '化学物質管理', title: 'リスクアセスメント対象物質の追加（234物質）', summary: 'SDSの通知・表示義務対象となるリスクアセスメント対象物質が新たに234物質追加されました。', source: '安全衛生情報センター', color: '#ff9800' },
-      { id: 3, date: '2025/11', category: '労働時間', title: '勤務間インターバル制度の努力義務強化', summary: '終業から次の始業まで11時間以上の休息確保について、努力義務の実効性を高める措置が検討されています。', source: '厚生労働省', color: '#2196f3' },
-      { id: 4, date: '2025/10', category: '化学物質管理', title: '労働安全衛生関係手続きの電子申請義務化', summary: '労働者死傷病報告、産業医選任報告等の手続きについて電子申請が原則義務化されました。', source: '厚生労働省', color: '#ff9800' },
-      { id: 5, date: '2025/09', category: 'ハラスメント', title: 'カスタマーハラスメント防止措置の事業主義務化', summary: '労働施策総合推進法等の改正により、カスハラ防止のための雇用管理上の措置が事業主に義務付けられます。', source: '厚生労働省', color: '#9c27b0' },
-    ];
-
-    // ========================================
-    // ページ表示
-    // ========================================
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('page-' + pageId).classList.add('active');
-      const navBtn = document.querySelector('.nav-btn[data-page="' + pageId + '"]');
-      if (navBtn) navBtn.classList.add('active');
-      if (pageId === 'regulations') renderTimeline('all');
-    }
-
-    // ========================================
-    // 制度改正タイムライン
-    // ========================================
-    function renderTimeline(filter) {
-      const filtered = filter === 'all' ? regulations : regulations.filter(r => r.category === filter);
-      document.getElementById('timeline').innerHTML = filtered.map(r => {
-        const source = OFFICIAL_SOURCES[r.category];
-        return `
-          <div class="timeline-item">
-            <div class="timeline-dot" style="background: ${r.color}"></div>
-            <div class="timeline-card">
-              <div class="timeline-meta">
-                <span class="timeline-date">${r.date}</span>
-                <span class="timeline-category" style="background: ${r.color}">${r.category}</span>
-              </div>
-              <div class="timeline-title">${r.title}</div>
-              <div class="timeline-summary">${r.summary}</div>
-              <div class="timeline-footer">
-                <span class="timeline-source">出典: ${r.source}</span>
-                <a class="timeline-link" href="${source.url}" target="_blank" rel="noopener">${source.name} →</a>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function filterRegulations(category, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderTimeline(category);
-    }
-
-    // ========================================
-    // 最新記事一覧
-    // ========================================
-    function renderArticles() {
-      if (!articlesData || !articlesData.journals) return;
-      
-      document.getElementById('articles-list').innerHTML = articlesData.journals.map(j => `
-        <div class="journal-section">
-          <div class="journal-header" style="background: ${j.color}">
-            <h3>${j.name}</h3>
-            <div class="issue">${j.latest_issue || ''}</div>
-          </div>
-          <div class="journal-articles">
-            ${j.articles && j.articles.length > 0 ? j.articles.map(a => `
-              <div class="article-item">
-                <div class="article-title">${a.title}</div>
-                ${a.authors ? `<div class="article-authors">${a.authors}</div>` : ''}
-              </div>
-            `).join('') : '<div class="article-item" style="text-align:center;"><div class="article-title" style="color:#64748b;">J-STAGEで最新論文を確認 ↓</div></div>'}
-          </div>
-          <div class="journal-footer">
-            <a href="${j.url}" target="_blank" rel="noopener">📖 J-STAGEで見る →</a>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // ========================================
-    // 雑誌一覧グリッド
-    // ========================================
-    function renderJournalGrid() {
-      if (!articlesData || !articlesData.journals) return;
-      
-      document.getElementById('journal-grid').innerHTML = articlesData.journals.map(j => `
-        <div class="journal-card" onclick="showJournalDetail('${j.id}')">
-          <div class="journal-card-header">
-            <div class="journal-card-icon" style="background: ${j.color}20; color: ${j.color}">📚</div>
-            <div class="journal-card-info">
-              <h3>${j.name}</h3>
-              <p>${j.publisher}</p>
-            </div>
-          </div>
-          <div class="journal-card-desc">${j.description || ''}</div>
-        </div>
-      `).join('');
-    }
-
-    // ========================================
-    // 雑誌詳細ページ
-    // ========================================
-    function showJournalDetail(id) {
-      if (!articlesData || !articlesData.journals) return;
-      
-      const j = articlesData.journals.find(x => x.id === id);
-      if (!j) return;
-      document.getElementById('journal-detail-content').innerHTML = `
-        <div class="journal-detail-header" style="background: ${j.color}">
-          <h2>${j.name}</h2>
-          <p class="pub">${j.publisher} ｜ ${j.latest_issue || '最新号'}</p>
-          <p class="desc">${j.description || ''}</p>
-          <a href="${j.url}" target="_blank" rel="noopener">J-STAGEで最新号を見る →</a>
-        </div>
-        <h3 style="margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 700;">最新号の論文</h3>
-        ${j.articles && j.articles.length > 0 ? j.articles.map(a => `
-          <div class="detail-article">
-            <h4>${a.title}</h4>
-            ${a.authors ? `<div class="authors">${a.authors}</div>` : ''}
-          </div>
-        `).join('') : '<p style="color:#64748b;font-size:0.8rem;">論文情報を取得中...</p>'}
-        <div style="margin-top: 1rem; text-align: center;">
-          <a href="${j.url}" target="_blank" rel="noopener" style="display: inline-block; background: ${j.color}; color: #fff; padding: 0.6rem 1.5rem; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 700;">📖 J-STAGEで全論文を見る</a>
-        </div>
-      `;
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('page-journal-detail').classList.add('active');
-    }
-
-    // ========================================
-    // 初期化
-    // ========================================
-    document.addEventListener('DOMContentLoaded', () => {
-      renderTimeline('all');
-      loadArticlesData();  // J-STAGEからリアルタイム取得
-    });
+    
+    loadData();
   </script>
 </body>
 </html>
