@@ -264,25 +264,25 @@
       } catch (error) {
         console.error('Error loading articles:', error);
         document.getElementById('update-info').innerHTML = '<span class="dot" style="background:#ef4444"></span><span>取得失敗 - J-STAGEに直接アクセスしてください</span>';
-        document.getElementById('articles-list').innerHTML = '<div style="text-align:center;padding:2rem;color:#64748b;">データの取得に失敗しました。<br>下記リンクからJ-STAGEを直接ご覧ください。</div>' + renderFallbackLinks();
+        // フォールバック: 静的データを使用
+        articlesData = getFallbackData();
+        renderArticles();
+        renderJournalGrid();
       }
     }
     
-    function renderFallbackLinks() {
-      const journals = [
-        {name: "産業衛生学雑誌", url: "https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja", color: "#0066cc"},
-        {name: "Industrial Health", url: "https://www.jstage.jst.go.jp/browse/indhealth/-char/ja", color: "#006644"},
-        {name: "産業医学レビュー", url: "https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja", color: "#cc3300"},
-        {name: "産業精神保健", url: "https://www.jstage.jst.go.jp/browse/jjomh/-char/ja", color: "#9933cc"},
-        {name: "日本産業看護学会誌", url: "https://www.jstage.jst.go.jp/browse/jaohn/-char/ja", color: "#e91e63"},
-        {name: "産業保健法学会誌", url: "https://www.jstage.jst.go.jp/browse/jaohl/-char/ja", color: "#336699"},
-      ];
-      return '<div class="articles-grid">' + journals.map(j => `
-        <a href="${j.url}" target="_blank" rel="noopener" class="journal-section" style="text-decoration:none;">
-          <div class="journal-header" style="background:${j.color}"><h3>${j.name}</h3></div>
-          <div class="journal-footer"><span>📖 J-STAGEで見る →</span></div>
-        </a>
-      `).join('') + '</div>';
+    function getFallbackData() {
+      return {
+        updated_at: "（オフラインデータ）",
+        journals: [
+          { id: "sangyoeisei", name: "産業衛生学雑誌", publisher: "日本産業衛生学会", color: "#0066cc", url: "https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja", description: JOURNAL_DESCRIPTIONS["sangyoeisei"], latest_issue: "", articles: [] },
+          { id: "indhealth", name: "Industrial Health", publisher: "労働安全衛生総合研究所", color: "#006644", url: "https://www.jstage.jst.go.jp/browse/indhealth/-char/ja", description: JOURNAL_DESCRIPTIONS["indhealth"], latest_issue: "", articles: [] },
+          { id: "ohpfrev", name: "産業医学レビュー", publisher: "産業医学振興財団", color: "#cc3300", url: "https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja", description: JOURNAL_DESCRIPTIONS["ohpfrev"], latest_issue: "", articles: [] },
+          { id: "jjomh", name: "産業精神保健", publisher: "日本産業精神保健学会", color: "#9933cc", url: "https://www.jstage.jst.go.jp/browse/jjomh/-char/ja", description: JOURNAL_DESCRIPTIONS["jjomh"], latest_issue: "", articles: [] },
+          { id: "jaohn", name: "日本産業看護学会誌", publisher: "日本産業看護学会", color: "#e91e63", url: "https://www.jstage.jst.go.jp/browse/jaohn/-char/ja", description: JOURNAL_DESCRIPTIONS["jaohn"], latest_issue: "", articles: [] },
+          { id: "jaohl", name: "産業保健法学会誌", publisher: "日本産業保健法学会", color: "#336699", url: "https://www.jstage.jst.go.jp/browse/jaohl/-char/ja", description: JOURNAL_DESCRIPTIONS["jaohl"], latest_issue: "", articles: [] },
+        ]
+      };
     }
 
     // ========================================
@@ -361,7 +361,7 @@
         <div class="journal-section">
           <div class="journal-header" style="background: ${j.color}">
             <h3>${j.name}</h3>
-            <div class="issue">${j.latest_issue || '最新号'}</div>
+            <div class="issue">${j.latest_issue || ''}</div>
           </div>
           <div class="journal-articles">
             ${j.articles && j.articles.length > 0 ? j.articles.map(a => `
@@ -369,10 +369,10 @@
                 <div class="article-title">${a.title}</div>
                 ${a.authors ? `<div class="article-authors">${a.authors}</div>` : ''}
               </div>
-            `).join('') : '<div class="article-item"><div class="article-title" style="color:#94a3b8;">（論文情報を取得中...）</div></div>'}
+            `).join('') : '<div class="article-item" style="text-align:center;"><div class="article-title" style="color:#64748b;">J-STAGEで最新論文を確認 ↓</div></div>'}
           </div>
           <div class="journal-footer">
-            <a href="${j.url}" target="_blank" rel="noopener">📖 J-STAGEで全論文を見る →</a>
+            <a href="${j.url}" target="_blank" rel="noopener">📖 J-STAGEで見る →</a>
           </div>
         </div>
       `).join('');
