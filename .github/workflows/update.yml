@@ -1,0 +1,41 @@
+name: Update Articles
+
+on:
+  workflow_dispatch:  # 手動実行
+  schedule:
+    - cron: '0 0 * * 1'  # 毎週月曜 9:00 JST
+  push:
+    branches: [main]
+    paths:
+      - 'fetch_data.py'
+      - 'build_html.py'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Fetch articles from J-STAGE
+        run: python fetch_data.py
+      
+      - name: Build HTML
+        run: python build_html.py
+      
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "Update articles $(date +'%Y-%m-%d')"
+          git push
