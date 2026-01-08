@@ -246,22 +246,34 @@
 
     // 雑誌リスト
     const JOURNALS_CONFIG = [
-      { id: "sangyoeisei", name: "産業衛生学雑誌", publisher: "日本産業衛生学会", color: "#0066cc", cdjournal: "sangyoeisei" },
-      { id: "indhealth", name: "Industrial Health", publisher: "労働安全衛生総合研究所", color: "#006644", cdjournal: "indhealth" },
-      { id: "ohpfrev", name: "産業医学レビュー", publisher: "産業医学振興財団", color: "#cc3300", cdjournal: "ohpfrev" },
-      { id: "jjomh", name: "産業精神保健", publisher: "日本産業精神保健学会", color: "#9933cc", cdjournal: "jjomh" },
-      { id: "jaohn", name: "日本産業看護学会誌", publisher: "日本産業看護学会", color: "#e91e63", cdjournal: "jaohn" },
-      { id: "jaohl", name: "産業保健法学会誌", publisher: "日本産業保健法学会", color: "#336699", cdjournal: "jaohl" },
+      { id: 'sangyoeisei', name: '産業衛生学雑誌', publisher: '日本産業衛生学会', color: '#0066cc', cdjournal: 'sangyoeisei' },
+      { id: 'indhealth', name: 'Industrial Health', publisher: '労働安全衛生総合研究所', color: '#006644', cdjournal: 'indhealth' },
+      { id: 'ohpfrev', name: '産業医学レビュー', publisher: '産業医学振興財団', color: '#cc3300', cdjournal: 'ohpfrev' },
+      { id: 'jjomh', name: '産業精神保健', publisher: '日本産業精神保健学会', color: '#9933cc', cdjournal: 'jjomh' },
+      { id: 'jaohn', name: '日本産業看護学会誌', publisher: '日本産業看護学会', color: '#e91e63', cdjournal: 'jaohn' },
+      { id: 'jaohl', name: '産業保健法学会誌', publisher: '日本産業保健法学会', color: '#336699', cdjournal: 'jaohl' },
     ];
 
     async function fetchJournalDirect(j) {
       try {
-        const apiUrl = `https://api.jstage.jst.go.jp/searchapi/do?service=3&cdjournal=${j.cdjournal}&count=5`;
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+        const apiUrl = 'https://api.jstage.jst.go.jp/searchapi/do?service=3&cdjournal=' + j.cdjournal + '&count=5';
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl);
         
         const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const xml = await res.text();
+        
+        // ヘルパー関数: タグの中身を取得
+        function getTag(str, tag) {
+          const re = new RegExp('<' + tag + '[^>]*>([\\s\\S]*?)</' + tag + '>', 'i');
+          const m = str.match(re);
+          return m ? m[1] : '';
+        }
+        
+        // ヘルパー関数: CDATA除去とクリーンアップ
+        function clean(str) {
+          return (str || '').replace(/<!\[CDATA\[/g, '').replace(/\]\]>/g, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+        }
         
         const articles = [];
         const entries = xml.split('<entry>');
@@ -270,54 +282,63 @@
           const entry = entries[i];
           let title = '';
           
-          // タイトル取得
-          let m = entry.match(/<article_title>[\s\S]*?<ja>([^<]+)<\/ja>/);
-          if (m) title = m[1];
-          if (!title) { m = entry.match(/<article_title>([^<]+)<\/article_title>/); if (m) title = m[1]; }
-          if (!title) { m = entry.match(/<title[^>]*>([^<]+)<\/title>/); if (m) title = m[1]; }
+          // タイトル取得: <article_title><ja><![CDATA[タイトル]]></ja></article_title>
+          const articleTitle = getTag(entry, 'article_title');
+          if (articleTitle) {
+            const jaTitle = getTag(articleTitle, 'ja');
+            title = clean(jaTitle || getTag(articleTitle, 'en') || articleTitle);
+          }
+          if (!title) {
+            title = clean(getTag(entry, 'title'));
+          }
           
-          title = (title || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-          
-          // 著者取得
+          // 著者取得: <author><ja><n><![CDATA[著者名]]></n></ja></author>
           let authors = '';
-          const authorMatch = entry.match(/<author>([\s\S]*?)<\/author>/);
-          if (authorMatch) {
+          const authorBlock = getTag(entry, 'author');
+          if (authorBlock) {
+            const jaAuthor = getTag(authorBlock, 'ja');
+            const src = jaAuthor || getTag(authorBlock, 'en') || authorBlock;
             const names = [];
-            const re = /<n>([^<]+)<\/n>/g;
-            let nm;
-            while ((nm = re.exec(authorMatch[1])) !== null) names.push(nm[1].trim());
+            const nRe = /<n>([\s\S]*?)<\/n>/g;
+            let m;
+            while ((m = nRe.exec(src)) !== null) {
+              const name = clean(m[1]);
+              if (name) names.push(name);
+            }
             if (names.length > 2) authors = names[0] + ' 他';
             else if (names.length > 0) authors = names.join(', ');
           }
           
-          if (title && title.length > 3) articles.push({ title: title.slice(0, 100), authors });
+          if (title && title.length > 3) {
+            articles.push({ title: title.slice(0, 100), authors: authors });
+          }
         }
         
         // 巻号取得
         let issue = '';
         if (entries[1]) {
           const e = entries[1];
-          const vol = e.match(/<prism:volume>(\d+)<\/prism:volume>/);
-          const no = e.match(/<prism:number>(\d+)<\/prism:number>/);
-          const year = e.match(/<pubyear>(\d+)<\/pubyear>/);
+          const vol = clean(getTag(e, 'prism:volume'));
+          const no = clean(getTag(e, 'prism:number'));
+          const year = clean(getTag(e, 'pubyear'));
           if (vol) {
-            if (year) issue += year[1] + '年 ';
-            issue += vol[1] + '巻';
-            if (no) issue += no[1] + '号';
+            if (year) issue += year + '年 ';
+            issue += vol + '巻';
+            if (no) issue += no + '号';
           }
         }
         
         return {
           id: j.id, name: j.name, publisher: j.publisher, color: j.color,
-          url: `https://www.jstage.jst.go.jp/browse/${j.cdjournal}/-char/ja`,
+          url: 'https://www.jstage.jst.go.jp/browse/' + j.cdjournal + '/-char/ja',
           description: JOURNAL_DESCRIPTIONS[j.id] || '',
-          latest_issue: issue, articles
+          latest_issue: issue, articles: articles
         };
       } catch (e) {
         console.error(j.name + ': ' + e.message);
         return {
           id: j.id, name: j.name, publisher: j.publisher, color: j.color,
-          url: `https://www.jstage.jst.go.jp/browse/${j.cdjournal}/-char/ja`,
+          url: 'https://www.jstage.jst.go.jp/browse/' + j.cdjournal + '/-char/ja',
           description: JOURNAL_DESCRIPTIONS[j.id] || '',
           latest_issue: '', articles: []
         };
@@ -335,7 +356,7 @@
           journals: results
         };
         
-        document.getElementById('update-info').innerHTML = `<span class="dot"></span><span>最終取得: ${articlesData.updated_at}（リアルタイム）</span>`;
+        document.getElementById('update-info').innerHTML = '<span class="dot"></span><span>最終取得: ' + articlesData.updated_at + '（リアルタイム）</span>';
         renderArticles();
         renderJournalGrid();
       } catch (error) {
