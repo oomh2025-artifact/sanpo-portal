@@ -120,32 +120,32 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
+    .search-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
     .search-options {
       display: flex;
-      gap: 24px;
-      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
-    .search-option {
+    .search-options label {
       display: flex;
       align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
-    .search-option input {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent-1);
-    }
-    .search-option label {
+      gap: 6px;
       font-size: 0.9rem;
-      color: var(--text);
+      color: var(--text-muted);
       cursor: pointer;
+    }
+    .search-options input[type="radio"] {
+      accent-color: var(--accent-1);
     }
     .synonyms-info {
       margin-top: 16px;
       padding: 12px 16px;
-      background: rgba(99, 102, 241, 0.05);
-      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border-radius: 10px;
       font-size: 0.85rem;
       color: var(--accent-1);
       display: none;
@@ -153,63 +153,84 @@
     .synonyms-info.show {
       display: block;
     }
+    .synonyms-info .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .synonyms-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .synonym-tag {
+      background: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
     .results-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
     }
     .results-count {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
-    }
-    .results-count strong {
-      color: var(--accent-1);
     }
     .result-item {
       display: block;
       padding: 20px 24px;
-      background: var(--bg-secondary);
-      border-radius: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      margin-bottom: 12px;
       text-decoration: none;
       color: inherit;
-      margin-bottom: 12px;
       transition: all 0.2s;
     }
     .result-item:hover {
-      background: white;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-      transform: translateX(4px);
+      border-color: var(--accent-1);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+      transform: translateY(-2px);
     }
     .result-title {
-      font-size: 1rem;
-      font-weight: 500;
+      font-size: 1.05rem;
+      font-weight: 600;
       color: var(--text);
       margin-bottom: 8px;
       line-height: 1.5;
     }
-    .result-item:hover .result-title {
-      color: var(--accent-1);
-    }
     .result-title mark {
-      background: rgba(245, 158, 11, 0.3);
-      color: inherit;
-      padding: 0 2px;
-      border-radius: 2px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+      color: var(--accent-1);
+      padding: 1px 4px;
+      border-radius: 3px;
     }
     .result-meta {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
     }
     .result-journal {
       display: inline-block;
-      padding: 4px 10px;
-      background: var(--border-light);
-      border-radius: 6px;
-      font-size: 0.75rem;
+      background: var(--bg-secondary);
+      padding: 3px 10px;
+      border-radius: 5px;
+      margin-right: 10px;
       font-weight: 500;
-      color: var(--text-muted);
-      margin-right: 12px;
     }
     .no-results {
       text-align: center;
@@ -217,20 +238,46 @@
       color: var(--text-muted);
     }
     .no-results h3 {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-bottom: 8px;
       color: var(--text);
     }
     .initial-state {
       text-align: center;
+      padding: 80px 20px;
+      color: var(--text-light);
+    }
+    .initial-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+    .loading-state {
+      text-align: center;
       padding: 60px 20px;
       color: var(--text-muted);
     }
-    .initial-state svg {
-      width: 48px;
-      height: 48px;
-      color: var(--border);
-      margin-bottom: 16px;
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent-1);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .mode-description {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
     }
   </style>
 </head>
@@ -246,35 +293,41 @@
         SANPO PORTAL
       </a>
       <nav>
-        <a href="seido.html">制度改正</a>
-        <a href="articles.html">最新記事</a>
-        <a href="journals.html">雑誌一覧</a>
+        <a href="index.html">ホーム</a>
+        <a href="journals.html">学術誌</a>
+        <a href="articles.html">論文</a>
+        <a href="seido.html">制度</a>
         <a href="search.html" class="active">検索</a>
       </nav>
     </div>
   </header>
+  
   <main>
     <div class="page-header">
       <h1>キーワード検索</h1>
-      <p>6つの学術誌からキーワードで論文を検索</p>
+      <p>産業保健関連の論文をキーワードで横断検索</p>
     </div>
     
     <div class="search-box">
       <div class="search-input-wrap">
-        <input type="text" class="search-input" id="searchInput" placeholder="キーワードを入力（例: メンタルヘルス、ストレス）" />
-        <button class="search-btn" onclick="doSearch()">検索</button>
+        <input type="text" id="searchInput" class="search-input" placeholder="例：メンタルヘルス、ストレスチェック、復職支援">
+        <button onclick="doSearch()" id="searchBtn" class="search-btn">検索</button>
       </div>
       <div class="search-options">
-        <div class="search-option">
-          <input type="radio" name="searchMode" id="exactMatch" value="exact" checked />
-          <label for="exactMatch">完全一致</label>
-        </div>
-        <div class="search-option">
-          <input type="radio" name="searchMode" id="synonymMatch" value="synonym" />
-          <label for="synonymMatch">類義語も検索</label>
-        </div>
+        <label>
+          <input type="radio" name="searchMode" value="exact"> 完全一致
+        </label>
+        <label>
+          <input type="radio" name="searchMode" value="static" checked> シソーラス検索（従来版）
+        </label>
+        <label>
+          <input type="radio" name="searchMode" value="ai"> 🤖 AI拡張検索
+        </label>
       </div>
-      <div class="synonyms-info" id="synonymsInfo"></div>
+      <div class="mode-description" id="modeDescription">
+        シソーラス検索：事前定義された類義語辞書を使用して関連語も検索します
+      </div>
+      <div id="synonymsInfo" class="synonyms-info"></div>
     </div>
     
     <div id="resultsArea">
@@ -289,26 +342,44 @@
   
   <script>
     const articles = [{"title": "特定健康診査に用いられる主観的な咀嚼状態に関する質問項目と男性勤労者における口腔状態の関連性", "authors": ["谷 直道", "埴岡 隆", "樋口 善之", "太田 雅規", "山本 良子"], "journal": "産業衛生学雑誌", "year": "2023", "volume": "65", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-027-B/_article/-char/ja/"}, {"title": "医療機関職員の新型コロナウィルス（SARS-CoV-2）ワクチン接種直後から約3ヶ月後及び9ヶ月後のスパイク蛋白特異的IgG抗体の保有状況についての調査", "authors": ["宮島 江里子", "今泉 弘", "押田 小百合", "五十嵐 敬子", "吉田 宗紀"], "journal": "産業衛生学雑誌", "year": "2023", "volume": "65", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-039-B/_article/-char/ja/"}, {"title": "予防・臨床医学理論と実践体系におけるアレルギー・免疫毒性制御：1．職業アレルギーとイソシアネート喘息", "authors": ["日本産業衛生学会アレルギー免疫毒性研究会", "土橋 邦生", "吉田 貴彦", "森本 泰夫", "上田 厚"], "journal": "産業衛生学雑誌", "year": "2023", "volume": "65", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-040-A/_article/-char/ja/"}, {"title": "疾病を抱える労働者の治療と仕事の両立支援の取り組み状況：和歌山県内事業場の規模別比較から", "authors": ["森岡 郁晴", "寺下 浩彰", "宮下 和久", "生田 善太郎", "竹下 達也"], "journal": "産業衛生学雑誌", "year": "2023", "volume": "65", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-051-E/_article/-char/ja/"}, {"title": "特別則の廃止は職場環境評価システムに何をもたらすのか", "authors": ["熊谷 信二"], "journal": "産業衛生学雑誌", "year": "2023", "volume": "65", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2022-004-W/_article/-char/ja/"}, {"title": "Shinichi IWASAKI", "authors": ["Shinichi IWASAKI", "Yasuhiko DEGUCHI", "Tomoyuki HIROTA", "Yoshiki SHIRAHAMA", "Yoko NAKAMICHI"], "journal": "Industrial Health", "year": "2023", "volume": "61", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0169/_article/-char/ja/"}, {"title": "Kazunori IKEGAMI", "authors": ["Kazunori IKEGAMI", "Hajime ANDO", "Hisashi EGUCHI", "Mayumi TSUJI", "Seiichiro TATEISHI"], "journal": "Industrial Health", "year": "2023", "volume": "61", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0250/_article/-char/ja/"}, {"title": "Min-Woo NAM", "authors": ["Min-Woo NAM", "Jinjoo CHUNG", "Soyoung PARK", "Woncheol LEE", "Jihoon PARK"], "journal": "Industrial Health", "year": "2023", "volume": "61", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0271/_article/-char/ja/"}, {"title": "Yukihiro SATO", "authors": ["Yukihiro SATO", "Eiji YOSHIOKA", "Masanori TAKEKAWA", "Yasuaki SAIJO"], "journal": "Industrial Health", "year": "2023", "volume": "61", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0274/_article/-char/ja/"}, {"title": "Tianchang JI", "authors": ["Tianchang JI", "Jan DE JONGE", "Toon W. TARIS", "Norito KAWAKAMI", "Maria C.W. PEETERS"], "journal": "Industrial Health", "year": "2023", "volume": "61", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0276/_article/-char/ja/"}, {"title": "加熱式タバコの発がん性評価の最新動向", "authors": ["山口 直人"], "journal": "産業医学レビュー", "year": "2023", "volume": "35", "number": "3", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/35/3/35_1/_article/-char/ja/"}, {"title": "災害と産業保健", "authors": ["立石 清一郎", "五十嵐 侑"], "journal": "産業医学レビュー", "year": "2023", "volume": "35", "number": "3", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/35/3/35_125/_article/-char/ja/"}, {"title": "電離放射線の歴史から学ぶ放射線防護", "authors": ["岡﨑 龍史"], "journal": "産業医学レビュー", "year": "2023", "volume": "36", "number": "1", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/36/1/36_1/_article/-char/ja/"}, {"title": "「騒音障害防止のためのガイドライン」の見直しの背景と主なポイント", "authors": ["和田 哲郎"], "journal": "産業医学レビュー", "year": "2023", "volume": "36", "number": "1", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/36/1/36_30/_article/-char/ja/"}, {"title": "インジウム肺：難溶性インジウム粉塵曝露によるヒト肺障害", "authors": ["大前 和幸", "中野 真規子", "田中 昭代", "平田 美由紀", "浜口 伝博"], "journal": "産業医学レビュー", "year": "2023", "volume": "36", "number": "1", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/36/1/36_50/_article/-char/ja/"}, {"title": "特集にあたって", "authors": ["加藤 憲忠"], "journal": "産業精神保健", "year": "2023", "volume": "31", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_1/_article/-char/ja/"}, {"title": "更年期障害と労働", "authors": ["小川 真里子"], "journal": "産業精神保健", "year": "2023", "volume": "31", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_15/_article/-char/ja/"}, {"title": "子育てをしながら働く女性のストレスとメンタルヘルス", "authors": ["佐々木 那津"], "journal": "産業精神保健", "year": "2023", "volume": "31", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_21/_article/-char/ja/"}, {"title": "女性のサステイナブルな働き方に必要なものは何か", "authors": ["辻 奈津子"], "journal": "産業精神保健", "year": "2023", "volume": "31", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_25/_article/-char/ja/"}, {"title": "働く女性と月経前症候群", "authors": ["江川 美保"], "journal": "産業精神保健", "year": "2023", "volume": "31", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_3/_article/-char/ja/"}, {"title": "産業看護職と臨床看護職との治療と仕事の両立支援における連携の仕組みづくり", "authors": ["河野 啓子", "杉崎 一美", "後藤 由紀", "畑中 三千代", "加藤 睦美"], "journal": "日本産業看護学会誌", "year": "2023", "volume": "10", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohn/10/1/10_1/_article/-char/ja/"}, {"title": "デルファイ法を用いた調査による今後の日本産業看護学会のあり方に関する会員のニーズ", "authors": ["金森 悟", "宇都宮 千春", "石倉 恭子", "秋元 史恵", "鳥羽山 睦子"], "journal": "日本産業看護学会誌", "year": "2023", "volume": "10", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohn/10/1/10_11/_article/-char/ja/"}, {"title": "産業看護の定義", "authors": ["河野 啓子"], "journal": "日本産業看護学会誌", "year": "2023", "volume": "10", "number": "2", "link": "https://www.jstage.jst.go.jp/article/jaohn/10/2/10_21/_article/-char/ja/"}, {"title": "企業の健康施策決定プロセスに関与する産業看護職に必要なコンピテンシー", "authors": ["元田 紀子", "金森 悟", "福田 吉治"], "journal": "日本産業看護学会誌", "year": "2023", "volume": "10", "number": "2", "link": "https://www.jstage.jst.go.jp/article/jaohn/10/2/10_23/_article/-char/ja/"}, {"title": "産業看護職による生活習慣病予防・改善を目的とした睡眠保健指導の実態", "authors": ["津村 美里", "和泉 比佐子"], "journal": "日本産業看護学会誌", "year": "2023", "volume": "10", "number": "2", "link": "https://www.jstage.jst.go.jp/article/jaohn/10/2/10_34/_article/-char/ja/"}, {"title": "副業・兼業をめぐる2020年労災保険法改正", "authors": ["山本 陽大"], "journal": "産業保健法学会誌", "year": "2023", "volume": "2", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_10/_article/-char/ja/"}, {"title": "個別化医療の現状と、 職場における遺伝情報の事例検討", "authors": ["泉 陽子"], "journal": "産業保健法学会誌", "year": "2023", "volume": "2", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_101/_article/-char/ja/"}, {"title": "産業医の立場からの検討", "authors": ["立道 昌幸"], "journal": "産業保健法学会誌", "year": "2023", "volume": "2", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_108/_article/-char/ja/"}, {"title": "法律家の立場から", "authors": ["菰口 高志"], "journal": "産業保健法学会誌", "year": "2023", "volume": "2", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_112/_article/-char/ja/"}, {"title": "前向きゲノムコホート参加者を対象とした遺伝性乳がん卵巣がんの遺伝情報回付", "authors": ["大根田 絹子"], "journal": "産業保健法学会誌", "year": "2023", "volume": "2", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_121/_article/-char/ja/"}];
+    
+    // 静的シソーラス（フォールバック用）
     const thesaurus = {"メンタルヘルス": ["精神保健", "心の健康", "メンタル", "mental health", "精神衛生"], "ストレスチェック": ["ストレス調査", "心理的負担", "職業性ストレス", "stress check"], "ストレス": ["心理的負担", "精神的負担", "プレッシャー", "stress", "緊張"], "過重労働": ["長時間労働", "過労", "overwork", "時間外労働", "残業"], "健康診断": ["健診", "健康診査", "ヘルスチェック", "定期健診", "health examination"], "産業医": ["事業場医師", "嘱託医", "occupational physician"], "産業保健": ["職域保健", "労働衛生", "occupational health", "職場の健康"], "復職支援": ["リワーク", "職場復帰支援", "復帰支援", "return to work"], "職場復帰": ["復職", "リワーク", "return to work"], "労災": ["労働災害", "業務災害", "work injury"], "安全衛生": ["労働安全衛生", "職場安全", "safety and health"], "化学物質": ["有害物質", "危険物質", "chemical substance", "有機溶剤"], "熱中症": ["暑熱障害", "heat stroke", "熱射病"], "テレワーク": ["在宅勤務", "リモートワーク", "remote work"], "両立支援": ["治療と仕事の両立", "ワークライフバランス", "work-life balance"], "ハラスメント": ["パワハラ", "セクハラ", "いじめ", "嫌がらせ", "harassment"], "うつ病": ["うつ", "抑うつ", "depression", "気分障害"], "睡眠": ["不眠", "睡眠障害", "sleep", "insomnia"], "疲労": ["疲れ", "倦怠感", "fatigue", "慢性疲労"], "女性": ["女性労働者", "働く女性", "female", "women"], "高齢": ["高年齢", "シニア", "elderly", "aging"], "健康経営": ["health management", "健康投資", "ホワイト500"], "エンゲージメント": ["ワークエンゲージメント", "work engagement", "働きがい"], "バーンアウト": ["燃え尽き", "燃え尽き症候群", "burnout"]};
     
     const searchInput = document.getElementById('searchInput');
     const synonymsInfo = document.getElementById('synonymsInfo');
+    const searchBtn = document.getElementById('searchBtn');
+    const modeDescription = document.getElementById('modeDescription');
+    
+    // モード説明の更新
+    document.querySelectorAll('input[name="searchMode"]').forEach(radio => {
+      radio.addEventListener('change', updateModeDescription);
+    });
+    
+    function updateModeDescription() {
+      const mode = document.querySelector('input[name="searchMode"]:checked').value;
+      const descriptions = {
+        'exact': '完全一致：入力したキーワードと完全に一致する論文のみ検索します',
+        'static': 'シソーラス検索：事前定義された類義語辞書を使用して関連語も検索します',
+        'ai': '🤖 AI拡張検索：Claude AIがリアルタイムで関連する専門用語を生成し、より広範囲に検索します'
+      };
+      modeDescription.textContent = descriptions[mode];
+    }
     
     searchInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') doSearch();
     });
     
-    function getSynonyms(keyword) {
+    // 静的シソーラス検索
+    function getStaticSynonyms(keyword) {
       const kw = keyword.toLowerCase();
       let synonyms = [keyword];
       
-      // 完全一致でシソーラスを検索
       for (const [key, values] of Object.entries(thesaurus)) {
         if (key.toLowerCase() === kw || key.toLowerCase().includes(kw)) {
           synonyms = synonyms.concat(values);
           synonyms.push(key);
         }
-        // 値にも含まれているかチェック
         for (const v of values) {
           if (v.toLowerCase() === kw || v.toLowerCase().includes(kw)) {
             synonyms = synonyms.concat(values);
@@ -321,6 +392,28 @@
       return [...new Set(synonyms)];
     }
     
+    // AI拡張検索（Netlify Functions経由）
+    async function getAISynonyms(keyword) {
+      try {
+        const response = await fetch('/.netlify/functions/expand-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: keyword })
+        });
+        
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        return data.synonyms || [keyword];
+      } catch (error) {
+        console.error('AI synonym expansion failed:', error);
+        // フォールバック：静的シソーラスを使用
+        return getStaticSynonyms(keyword);
+      }
+    }
+    
     function highlightText(text, keywords) {
       let result = text;
       for (const kw of keywords) {
@@ -330,31 +423,70 @@
       return result;
     }
     
-    function doSearch() {
+    async function doSearch() {
       const keyword = searchInput.value.trim();
       if (!keyword) return;
       
       const mode = document.querySelector('input[name="searchMode"]:checked').value;
       let searchTerms = [keyword];
       
-      if (mode === 'synonym') {
-        searchTerms = getSynonyms(keyword);
+      // 検索モードに応じて処理
+      if (mode === 'ai') {
+        // AI拡張検索
+        searchBtn.disabled = true;
+        searchBtn.textContent = 'AI分析中...';
+        document.getElementById('resultsArea').innerHTML = `
+          <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>AIが関連キーワードを分析しています...</p>
+          </div>
+        `;
+        
+        try {
+          searchTerms = await getAISynonyms(keyword);
+          showSynonymsInfo(searchTerms, true);
+        } catch (error) {
+          console.error(error);
+          searchTerms = getStaticSynonyms(keyword);
+          showSynonymsInfo(searchTerms, false);
+        } finally {
+          searchBtn.disabled = false;
+          searchBtn.textContent = '検索';
+        }
+      } else if (mode === 'static') {
+        // 静的シソーラス検索
+        searchTerms = getStaticSynonyms(keyword);
         if (searchTerms.length > 1) {
-          synonymsInfo.innerHTML = '🔍 検索語: ' + searchTerms.join(', ');
-          synonymsInfo.classList.add('show');
+          showSynonymsInfo(searchTerms, false);
         } else {
           synonymsInfo.classList.remove('show');
         }
       } else {
+        // 完全一致
         synonymsInfo.classList.remove('show');
       }
       
+      // 検索実行
       const results = articles.filter(article => {
         const text = (article.title + ' ' + article.authors.join(' ')).toLowerCase();
         return searchTerms.some(term => text.includes(term.toLowerCase()));
       });
       
       renderResults(results, searchTerms);
+    }
+    
+    function showSynonymsInfo(terms, isAI) {
+      const badge = isAI 
+        ? '<span class="ai-badge">🤖 AI生成</span>' 
+        : '🔍 ';
+      
+      synonymsInfo.innerHTML = `
+        ${badge}検索語を拡張しました（${terms.length}語）
+        <div class="synonyms-list">
+          ${terms.map(t => `<span class="synonym-tag">${t}</span>`).join('')}
+        </div>
+      `;
+      synonymsInfo.classList.add('show');
     }
     
     function renderResults(results, keywords) {
