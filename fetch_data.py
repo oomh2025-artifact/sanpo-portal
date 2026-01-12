@@ -45,7 +45,9 @@ JOURNALS = [
 API_URL = "https://api.jstage.jst.go.jp/searchapi/do"
 
 def fetch_journal(journal_id, count=5):
-    url = f"{API_URL}?service=3&cdjournal={journal_id}&count={count}&pubyearfrom=2023"
+  from datetime import datetime
+year = datetime.now().year - 1
+url = f"{API_URL}?service=3&cdjournal={journal_id}&count={count}&pubyearfrom={year}&sortflg=2"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=30) as resp:
