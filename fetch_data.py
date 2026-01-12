@@ -42,22 +42,87 @@ JOURNALS = [
      "desc": "産業保健と法律の接点を扱う専門誌。労働安全衛生法、労災認定など。"},
 ]
 
-API_URL = "https://api.jstage.jst.go.jp/searchapi/do"
 
-def fetch_journal(journal_id, count=5):
-  from datetime import datetime
-year = datetime.now().year - 1
-url = f"{API_URL}?service=3&cdjournal={journal_id}&count={count}&pubyearfrom={year}&sortflg=2"
+def fetch_journal_rss(journal_id, count=5):
+    """RSSフィードから最新論文を取得（新着順で確実）"""
+    rss_url = f"https://www.jstage.jst.go.jp/browse/{journal_id}/-char/ja/rss"
+    
+    try:
+        req = urllib.request.Request(rss_url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            xml = resp.read().decode("utf-8")
+        
+        articles = []
+        items = re.findall(r'<item[^>]*>([\s\S]*?)</item>', xml)
+        
+        for item in items[:count]:
+            # タイトル
+            title_m = re.search(r'<title>([^<]+)</title>', item)
+            title = title_m.group(1).strip() if title_m else ""
+            
+            # URLから巻号情報を抽出
+            link_m = re.search(r'<link>([^<]+)</link>', item)
+            link = link_m.group(1).strip() if link_m else ""
+            
+            # /article/journal/vol/num/... の形式からvol, numを抽出
+            vol_m = re.search(r'/article/[^/]+/(\d+)/([^/]+)/', link)
+            vol = vol_m.group(1) if vol_m else ""
+            num = vol_m.group(2) if vol_m else ""
+            
+            # 公開日
+            date_m = re.search(r'<dc:date>([^<]+)</dc:date>', item)
+            if date_m:
+                try:
+                    dt = datetime.fromisoformat(date_m.group(1).replace("+09:00", "+00:00").replace("Z", "+00:00"))
+                    year = str(dt.year)
+                except:
+                    year = ""
+            else:
+                year = ""
+            
+            # 著者（RSSにはcreatorとして入っている場合がある）
+            authors = []
+            creator_m = re.search(r'<dc:creator>([^<]+)</dc:creator>', item)
+            if creator_m:
+                # カンマや、で分割
+                auth_str = creator_m.group(1)
+                authors = [a.strip() for a in re.split(r'[,、]', auth_str) if a.strip()]
+            
+            if title and not title.startswith("http"):
+                articles.append({
+                    "title": title,
+                    "authors": authors[:5],
+                    "volume": vol,
+                    "number": num,
+                    "year": year,
+                    "link": link,
+                })
+        
+        return articles
+    
+    except Exception as e:
+        print(f"  RSS Error for {journal_id}: {e}")
+        # RSSが失敗したらAPIにフォールバック
+        return fetch_journal_api(journal_id, count)
+
+
+def fetch_journal_api(journal_id, count=5):
+    """APIから取得（フォールバック）"""
+    year = datetime.now().year - 1
+    url = f"https://api.jstage.jst.go.jp/searchapi/do?service=3&cdjournal={journal_id}&count={count}&pubyearfrom={year}"
+    
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=30) as resp:
             xml = resp.read().decode("utf-8")
-        return parse_xml(xml)
+        return parse_api_xml(xml)
     except Exception as e:
-        print(f"  Error fetching {journal_id}: {e}")
+        print(f"  API Error for {journal_id}: {e}")
         return []
 
-def parse_xml(xml):
+
+def parse_api_xml(xml):
+    """APIのXMLをパース"""
     articles = []
     entries = xml.split("<entry>")
     
@@ -113,6 +178,7 @@ def parse_xml(xml):
     
     return articles[:5]
 
+
 def fetch_rss():
     """厚労省RSSから産業保健関連ニュースを取得"""
     news = []
@@ -123,10 +189,9 @@ def fetch_rss():
             with urllib.request.urlopen(req, timeout=30) as resp:
                 xml = resp.read().decode("utf-8")
             
-            # RSSアイテムを抽出
             items = re.findall(r'<item>([\s\S]*?)</item>', xml)
             
-            for item in items[:50]:  # 最新50件をチェック
+            for item in items[:50]:
                 title_m = re.search(r'<title>([^<]+)</title>', item)
                 link_m = re.search(r'<link>([^<]+)</link>', item)
                 date_m = re.search(r'<dc:date>([^<]+)</dc:date>', item)
@@ -136,7 +201,6 @@ def fetch_rss():
                 
                 title = title_m.group(1).strip()
                 
-                # キーワードフィルタ
                 if not any(kw in title for kw in KEYWORDS):
                     continue
                 
@@ -159,12 +223,12 @@ def fetch_rss():
         except Exception as e:
             print(f"  Error fetching RSS {feed['name']}: {e}")
     
-    # 日付でソート、最新10件
     news.sort(key=lambda x: x.get("date", ""), reverse=True)
     return news[:10]
 
+
 def main():
-    print("J-STAGEから論文データを取得中...")
+    print("J-STAGE RSSから論文データを取得中...")
     
     data = {
         "updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -174,7 +238,7 @@ def main():
     
     for j in JOURNALS:
         print(f"  {j['name']}...")
-        articles = fetch_journal(j["id"])
+        articles = fetch_journal_rss(j["id"])  # RSSを使う
         print(f"    -> {len(articles)}件")
         data["journals"].append({**j, "articles": articles})
     
@@ -186,6 +250,7 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
     
     print(f"\n保存: data.json")
+
 
 if __name__ == "__main__":
     main()
