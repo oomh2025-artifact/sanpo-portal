@@ -1,5 +1,5 @@
 {
-  "updated": "2026-01-12 04:16",
+  "updated": "2026-01-12 15:48",
   "journals": [
     {
       "id": "sangyoeisei",
@@ -9,70 +9,62 @@
       "desc": "産業保健・労働衛生分野の原著論文、総説、症例報告などを掲載。国内最大の産業保健専門誌。",
       "articles": [
         {
-          "title": "特定健康診査に用いられる主観的な咀嚼状態に関する質問項目と男性勤労者における口腔状態の関連性",
+          "title": "予防・臨床医学理論と実践体系におけるアレルギー・免疫毒性制御：2．現代社会を取り巻く環境因子と気管支喘息発症メカニズム",
           "authors": [
-            "谷 直道",
-            "埴岡 隆",
-            "樋口 善之",
-            "太田 雅規",
-            "山本 良子"
-          ],
-          "volume": "65",
-          "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-027-B/_article/-char/ja/"
-        },
-        {
-          "title": "医療機関職員の新型コロナウィルス（SARS-CoV-2）ワクチン接種直後から約3ヶ月後及び9ヶ月後のスパイク蛋白特異的IgG抗体の保有状況についての調査",
-          "authors": [
-            "宮島 江里子",
-            "今泉 弘",
-            "押田 小百合",
-            "五十嵐 敬子",
-            "吉田 宗紀"
-          ],
-          "volume": "65",
-          "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-039-B/_article/-char/ja/"
-        },
-        {
-          "title": "予防・臨床医学理論と実践体系におけるアレルギー・免疫毒性制御：1．職業アレルギーとイソシアネート喘息",
-          "authors": [
-            "日本産業衛生学会アレルギー免疫毒性研究会",
+            "日本産業衛生学会アレルギー・免疫毒性研究会",
+            "久田 剛志",
+            "西村 泰光",
             "土橋 邦生",
-            "吉田 貴彦",
-            "森本 泰夫",
-            "上田 厚"
+            "吉田 貴彦"
           ],
-          "volume": "65",
+          "volume": "67",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-040-A/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_2024-009-A/_article/-char/ja/"
         },
         {
-          "title": "疾病を抱える労働者の治療と仕事の両立支援の取り組み状況：和歌山県内事業場の規模別比較から",
+          "title": "職域での動脈硬化性疾患リスク値（久山町研究スコア）運用についての検討",
           "authors": [
-            "森岡 郁晴",
-            "寺下 浩彰",
-            "宮下 和久",
-            "生田 善太郎",
-            "竹下 達也"
+            "黒木 和志郎",
+            "由良 冴希子",
+            "森山 和郎",
+            "津田 恵理",
+            "吉田 直樹"
           ],
-          "volume": "65",
+          "volume": "67",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2021-051-E/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_2024-022-B/_article/-char/ja/"
         },
         {
-          "title": "特別則の廃止は職場環境評価システムに何をもたらすのか",
+          "title": "SANGYO EISEIGAKU ZASSHI",
+          "authors": [],
+          "volume": "67",
+          "number": "1",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_Info/_article/-char/ja/"
+        },
+        {
+          "title": "病気休職の業種間比較：JILPTデータ・アーカイブを用いた横断研究",
+          "authors": [
+            "須賀 弘篤",
+            "北原 照代",
+            "辻村 裕次"
+          ],
+          "volume": "67",
+          "number": "2",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/2/67_2024-006-B/_article/-char/ja/"
+        },
+        {
+          "title": "金属加工労働者における皮膚疾患の業務起因性",
           "authors": [
             "熊谷 信二"
           ],
-          "volume": "65",
-          "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/65/1/65_2022-004-W/_article/-char/ja/"
+          "volume": "67",
+          "number": "2",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/2/67_2024-029-D/_article/-char/ja/"
         }
       ]
     },
@@ -84,73 +76,67 @@
       "desc": "世界各国の産業保健研究を掲載する国際英文誌。オープンアクセス。",
       "articles": [
         {
-          "title": "Shinichi IWASAKI",
+          "title": "Yuko OCHIAI",
           "authors": [
-            "Shinichi IWASAKI",
-            "Yasuhiko DEGUCHI",
-            "Tomoyuki HIROTA",
-            "Yoshiki SHIRAHAMA",
-            "Yoko NAKAMICHI"
+            "Yuko OCHIAI",
+            "Yasumasa OTSUKA"
           ],
-          "volume": "61",
+          "volume": "63",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0169/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0005/_article/-char/ja/"
         },
         {
-          "title": "Kazunori IKEGAMI",
+          "title": "Benito ZAMORANO-GONZÁLEZ",
           "authors": [
-            "Kazunori IKEGAMI",
-            "Hajime ANDO",
-            "Hisashi EGUCHI",
-            "Mayumi TSUJI",
-            "Seiichiro TATEISHI"
+            "Benito ZAMORANO-GONZÁLEZ",
+            "Fabiola PENA-CARDENAS",
+            "Víctor PARRA-SIERRA",
+            "Gloria Imelda HERNANDEZ-RODRIGUEZ"
           ],
-          "volume": "61",
+          "volume": "63",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0250/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0114/_article/-char/ja/"
         },
         {
-          "title": "Min-Woo NAM",
+          "title": "Mihoko MORI",
           "authors": [
-            "Min-Woo NAM",
-            "Jinjoo CHUNG",
-            "Soyoung PARK",
-            "Woncheol LEE",
-            "Jihoon PARK"
+            "Mihoko MORI",
+            "Yoshitaka MORIMATSU",
+            "Tatsuya ISHITAKE"
           ],
-          "volume": "61",
+          "volume": "63",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0271/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0165/_article/-char/ja/"
         },
         {
-          "title": "Yukihiro SATO",
+          "title": "Toshiki KISHIMOTO",
           "authors": [
-            "Yukihiro SATO",
-            "Eiji YOSHIOKA",
-            "Masanori TAKEKAWA",
-            "Yasuaki SAIJO"
+            "Toshiki KISHIMOTO",
+            "Yoshinori KITABATAKE",
+            "Takayuki TAGUCHI",
+            "Hiroaki NOBUHARA"
           ],
-          "volume": "61",
+          "volume": "63",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0274/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0166/_article/-char/ja/"
         },
         {
-          "title": "Tianchang JI",
+          "title": "Ayako TAKATA",
           "authors": [
-            "Tianchang JI",
-            "Jan DE JONGE",
-            "Toon W. TARIS",
-            "Norito KAWAKAMI",
-            "Maria C.W. PEETERS"
+            "Ayako TAKATA",
+            "Hiroshi YAMAUCHI",
+            "Kiyotsugu YAMASHITA",
+            "Masahito AMINAKA",
+            "Toshiaki HITOMI"
           ],
-          "volume": "61",
+          "volume": "63",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/indhealth/61/1/61_2021-0276/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2024-0025/_article/-char/ja/"
         }
       ]
     },
@@ -162,59 +148,61 @@
       "desc": "産業医・産業保健専門職向けの実務に役立つ総説・解説誌。",
       "articles": [
         {
-          "title": "加熱式タバコの発がん性評価の最新動向",
+          "title": "労働衛生保護具とその適切な使用",
           "authors": [
-            "山口 直人"
+            "上福元 清隆",
+            "篠宮 真樹",
+            "原 工司"
           ],
-          "volume": "35",
+          "volume": "37",
           "number": "3",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/35/3/35_1/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_101/_article/-char/ja/"
         },
         {
-          "title": "災害と産業保健",
+          "title": "ワーク・エンゲイジメント：研究と実践における最近10年の動向",
           "authors": [
-            "立石 清一郎",
-            "五十嵐 侑"
+            "島津 明人"
           ],
-          "volume": "35",
+          "volume": "37",
           "number": "3",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/35/3/35_125/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_121/_article/-char/ja/"
         },
         {
-          "title": "電離放射線の歴史から学ぶ放射線防護",
+          "title": "カドミウムの産業衛生上の健康影響と労働衛生管理",
           "authors": [
-            "岡﨑 龍史"
+            "星野 賢人",
+            "角田 正史"
           ],
-          "volume": "36",
-          "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/36/1/36_1/_article/-char/ja/"
+          "volume": "37",
+          "number": "3",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_143/_article/-char/ja/"
         },
         {
-          "title": "「騒音障害防止のためのガイドライン」の見直しの背景と主なポイント",
+          "title": "組織の公正と従業員の健康",
           "authors": [
-            "和田 哲郎"
+            "武藤 孝司"
           ],
-          "volume": "36",
+          "volume": "38",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/36/1/36_30/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_1/_article/-char/ja/"
         },
         {
-          "title": "インジウム肺：難溶性インジウム粉塵曝露によるヒト肺障害",
+          "title": "健康状態や働き方と労働災害との関係について",
           "authors": [
-            "大前 和幸",
-            "中野 真規子",
-            "田中 昭代",
-            "平田 美由紀",
-            "浜口 伝博"
+            "永田 智久",
+            "小笠原 彩菜",
+            "山本 彩加",
+            "簑原 里奈",
+            "森 貴大"
           ],
-          "volume": "36",
+          "volume": "38",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/36/1/36_50/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_30/_article/-char/ja/"
         }
       ]
     },
@@ -226,54 +214,54 @@
       "desc": "職場のメンタルヘルスに特化。ストレスチェック、復職支援などを掲載。",
       "articles": [
         {
-          "title": "特集にあたって",
+          "title": "産業医科大学におけるシームレスな学生支援活動",
           "authors": [
-            "加藤 憲忠"
+            "上田 陽一"
           ],
-          "volume": "31",
+          "volume": "33",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_1/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_1/_article/-char/ja/"
         },
         {
-          "title": "更年期障害と労働",
+          "title": "医療機関における治療と仕事の両立支援",
           "authors": [
-            "小川 真里子"
+            "細田 悦子"
           ],
-          "volume": "31",
+          "volume": "33",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_15/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_10/_article/-char/ja/"
         },
         {
-          "title": "子育てをしながら働く女性のストレスとメンタルヘルス",
+          "title": "トランスジェンダーの事例から考える，職場のジェンダー・ルッキズム",
           "authors": [
-            "佐々木 那津"
+            "立石 結夏"
           ],
-          "volume": "31",
+          "volume": "33",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_21/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_13/_article/-char/ja/"
         },
         {
-          "title": "女性のサステイナブルな働き方に必要なものは何か",
+          "title": "デジタル医療を用いた精神科医療の可能性",
           "authors": [
-            "辻 奈津子"
+            "熊﨑 博一"
           ],
-          "volume": "31",
+          "volume": "33",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_25/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_17/_article/-char/ja/"
         },
         {
-          "title": "働く女性と月経前症候群",
+          "title": "若年性認知症の就労支援",
           "authors": [
-            "江川 美保"
+            "池ノ内 篤子"
           ],
-          "volume": "31",
+          "volume": "33",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jjomh/31/1/31_3/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_21/_article/-char/ja/"
         }
       ]
     },
@@ -285,65 +273,55 @@
       "desc": "産業看護職の実践と研究に関する論文を掲載。",
       "articles": [
         {
-          "title": "産業看護職と臨床看護職との治療と仕事の両立支援における連携の仕組みづくり",
+          "title": "産業看護職の健康施策決定プロセス関与コンピテンシー尺度の開発",
+          "authors": [
+            "金森 悟",
+            "髙見澤 友美",
+            "元田 紀子",
+            "福田 吉治"
+          ],
+          "volume": "12",
+          "number": "1",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohn/12/1/12_1/_article/-char/ja/"
+        },
+        {
+          "title": "治療と仕事の両立支援における産業看護職と臨床看護職との連携方策の妥当性の検討",
           "authors": [
             "河野 啓子",
             "杉崎 一美",
             "後藤 由紀",
-            "畑中 三千代",
-            "加藤 睦美"
+            "一尾 麻美",
+            "畑中 純子"
           ],
-          "volume": "10",
+          "volume": "12",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohn/10/1/10_1/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohn/12/1/12_11/_article/-char/ja/"
         },
         {
-          "title": "デルファイ法を用いた調査による今後の日本産業看護学会のあり方に関する会員のニーズ",
+          "title": "職場外産業保健スタッフからのインフォーマルなサポートと産業看護職のコンピテンシーの関連",
           "authors": [
-            "金森 悟",
-            "宇都宮 千春",
-            "石倉 恭子",
-            "秋元 史恵",
-            "鳥羽山 睦子"
-          ],
-          "volume": "10",
-          "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohn/10/1/10_11/_article/-char/ja/"
-        },
-        {
-          "title": "産業看護の定義",
-          "authors": [
-            "河野 啓子"
-          ],
-          "volume": "10",
-          "number": "2",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohn/10/2/10_21/_article/-char/ja/"
-        },
-        {
-          "title": "企業の健康施策決定プロセスに関与する産業看護職に必要なコンピテンシー",
-          "authors": [
-            "元田 紀子",
+            "髙見澤 友美",
             "金森 悟",
             "福田 吉治"
           ],
-          "volume": "10",
+          "volume": "12",
           "number": "2",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohn/10/2/10_23/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohn/12/2/12_19/_article/-char/ja/"
         },
         {
-          "title": "産業看護職による生活習慣病予防・改善を目的とした睡眠保健指導の実態",
+          "title": "転職を経験した産業看護職のキャリア形成の軌跡",
           "authors": [
-            "津村 美里",
-            "和泉 比佐子"
+            "吉田 麻美",
+            "森田 理江",
+            "三木 明子"
           ],
-          "volume": "10",
+          "volume": "12",
           "number": "2",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohn/10/2/10_34/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohn/12/2/12_28/_article/-char/ja/"
         }
       ]
     },
@@ -355,54 +333,66 @@
       "desc": "産業保健と法律の接点を扱う専門誌。労働安全衛生法、労災認定など。",
       "articles": [
         {
-          "title": "副業・兼業をめぐる2020年労災保険法改正",
+          "title": "労働の「オン」と「オフ」の境界線",
           "authors": [
-            "山本 陽大"
+            "安中 繁"
           ],
-          "volume": "2",
+          "volume": "4",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_10/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_100/_article/-char/ja/"
         },
         {
-          "title": "個別化医療の現状と、 職場における遺伝情報の事例検討",
+          "title": "安全配慮義務と職場のメンタルヘルスに関する現代的課題",
           "authors": [
-            "泉 陽子"
+            "林 和宏",
+            "鎌田 直樹",
+            "奥山 泰行",
+            "大林 知華子",
+            "湊谷 志貴子"
           ],
-          "volume": "2",
+          "volume": "4",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_101/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_105/_article/-char/ja/"
         },
         {
-          "title": "産業医の立場からの検討",
+          "title": "最近の労働衛生行政の動向",
           "authors": [
-            "立道 昌幸"
+            "佐々木  孝治"
           ],
-          "volume": "2",
+          "volume": "4",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_108/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_11/_article/-char/ja/"
         },
         {
-          "title": "法律家の立場から",
+          "title": "テレワークの産業保健法上の課題",
           "authors": [
-            "菰口 高志"
+            "佐藤 乃理子",
+            "日比 友美子",
+            "後藤 みずえ",
+            "増田 陳彦",
+            "渡邊 徹"
           ],
-          "volume": "2",
+          "volume": "4",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_112/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_114/_article/-char/ja/"
         },
         {
-          "title": "前向きゲノムコホート参加者を対象とした遺伝性乳がん卵巣がんの遺伝情報回付",
+          "title": "副業・兼業における健康管理と法",
           "authors": [
-            "大根田 絹子"
+            "秋山 陽子",
+            "竹野 佑喜",
+            "宇佐川 邦子",
+            "佐々木 毅",
+            "鎌田 耕一"
           ],
-          "volume": "2",
+          "volume": "4",
           "number": "1",
-          "year": "2023",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/2/1/2_121/_article/-char/ja/"
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_119/_article/-char/ja/"
         }
       ]
     }

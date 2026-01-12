@@ -80,28 +80,6 @@
       font-size: 1rem;
       color: var(--text-muted);
     }
-    .api-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 12px;
-      padding: 6px 12px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-      border-radius: 20px;
-      font-size: 0.75rem;
-      color: var(--accent-1);
-      font-weight: 500;
-    }
-    .api-badge::before {
-      content: "●";
-      font-size: 8px;
-      color: #22c55e;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
     .search-box {
       background: var(--bg-secondary);
       border-radius: 20px;
@@ -142,17 +120,10 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
-    .search-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
     .search-options {
       display: flex;
-      flex-wrap: wrap;
-      gap: 16px 24px;
+      gap: 24px;
       align-items: center;
-      margin-bottom: 16px;
     }
     .search-option {
       display: flex;
@@ -160,8 +131,7 @@
       gap: 8px;
       cursor: pointer;
     }
-    .search-option input[type="checkbox"],
-    .search-option input[type="radio"] {
+    .search-option input {
       width: 18px;
       height: 18px;
       accent-color: var(--accent-1);
@@ -170,30 +140,6 @@
       font-size: 0.9rem;
       color: var(--text);
       cursor: pointer;
-    }
-    .year-filter {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border-light);
-    }
-    .year-filter label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    .year-input {
-      width: 80px;
-      padding: 8px 12px;
-      font-size: 0.9rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      outline: none;
-      font-family: inherit;
-    }
-    .year-input:focus {
-      border-color: var(--accent-1);
     }
     .synonyms-info {
       margin-top: 16px;
@@ -212,8 +158,6 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 12px;
     }
     .results-count {
       font-size: 0.9rem;
@@ -288,45 +232,6 @@
       color: var(--border);
       margin-bottom: 16px;
     }
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-    }
-    .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid var(--border-light);
-      border-top-color: var(--accent-1);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 16px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .error-state {
-      text-align: center;
-      padding: 40px 20px;
-      background: #fef2f2;
-      border-radius: 12px;
-      color: #dc2626;
-    }
-    .error-state h3 {
-      margin-bottom: 8px;
-    }
-    .error-state p {
-      font-size: 0.9rem;
-      margin-bottom: 16px;
-    }
-    .retry-btn {
-      padding: 10px 20px;
-      background: #dc2626;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
   </style>
 </head>
 <body>
@@ -351,50 +256,25 @@
   <main>
     <div class="page-header">
       <h1>キーワード検索</h1>
-      <p>J-STAGE APIを使ってリアルタイムで論文を検索</p>
-      <div class="api-badge">J-STAGE API連携（Netlify Functions経由）</div>
+      <p>6つの学術誌からキーワードで論文を検索</p>
     </div>
     
     <div class="search-box">
       <div class="search-input-wrap">
-        <input type="text" class="search-input" id="searchInput" placeholder="キーワードを入力（例: メンタルヘルス、ストレス、産業医）" />
-        <button class="search-btn" id="searchBtn" onclick="doSearch()">検索</button>
+        <input type="text" class="search-input" id="searchInput" placeholder="キーワードを入力（例: メンタルヘルス、ストレス）" />
+        <button class="search-btn" onclick="doSearch()">検索</button>
       </div>
-      
       <div class="search-options">
-        <span style="font-size: 0.85rem; color: var(--text-muted); margin-right: 8px;">検索対象誌:</span>
         <div class="search-option">
-          <input type="checkbox" id="j1" value="sangyoeisei" checked />
-          <label for="j1">産業衛生学雑誌</label>
+          <input type="radio" name="searchMode" id="exactMatch" value="exact" checked />
+          <label for="exactMatch">完全一致</label>
         </div>
         <div class="search-option">
-          <input type="checkbox" id="j2" value="indhealth" checked />
-          <label for="j2">Industrial Health</label>
-        </div>
-        <div class="search-option">
-          <input type="checkbox" id="j3" value="ohpfrev" checked />
-          <label for="j3">産業医学レビュー</label>
-        </div>
-        <div class="search-option">
-          <input type="checkbox" id="j4" value="jjomh" checked />
-          <label for="j4">産業精神保健</label>
-        </div>
-        <div class="search-option">
-          <input type="checkbox" id="j5" value="jaohn" checked />
-          <label for="j5">産業看護学会誌</label>
-        </div>
-        <div class="search-option">
-          <input type="checkbox" id="j6" value="jaohl" checked />
-          <label for="j6">産業保健法学会誌</label>
+          <input type="radio" name="searchMode" id="synonymMatch" value="synonym" />
+          <label for="synonymMatch">類義語も検索</label>
         </div>
       </div>
-      
-      <div class="year-filter">
-        <label>発行年:</label>
-        <input type="number" class="year-input" id="yearFrom" placeholder="1990" min="1900" max="2030" />
-        <span>〜</span>
-        <input type="number" class="year-input" id="yearTo" placeholder="2025" min="1900" max="2030" />
-      </div>
+      <div class="synonyms-info" id="synonymsInfo"></div>
     </div>
     
     <div id="resultsArea">
@@ -402,130 +282,117 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
-        <p>キーワードを入力して検索してください<br><small style="color: var(--text-light);">※ J-STAGE APIからリアルタイムで論文を取得します（1990年〜最新）</small></p>
+        <p>キーワードを入力して検索してください</p>
       </div>
     </div>
   </main>
   
   <script>
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const resultsArea = document.getElementById('resultsArea');
+    const articles = [{"title": "予防・臨床医学理論と実践体系におけるアレルギー・免疫毒性制御：2．現代社会を取り巻く環境因子と気管支喘息発症メカニズム", "authors": ["日本産業衛生学会アレルギー・免疫毒性研究会", "久田 剛志", "西村 泰光", "土橋 邦生", "吉田 貴彦"], "journal": "産業衛生学雑誌", "year": "2025", "volume": "67", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_2024-009-A/_article/-char/ja/"}, {"title": "職域での動脈硬化性疾患リスク値（久山町研究スコア）運用についての検討", "authors": ["黒木 和志郎", "由良 冴希子", "森山 和郎", "津田 恵理", "吉田 直樹"], "journal": "産業衛生学雑誌", "year": "2025", "volume": "67", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_2024-022-B/_article/-char/ja/"}, {"title": "SANGYO EISEIGAKU ZASSHI", "authors": [], "journal": "産業衛生学雑誌", "year": "2025", "volume": "67", "number": "1", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_Info/_article/-char/ja/"}, {"title": "病気休職の業種間比較：JILPTデータ・アーカイブを用いた横断研究", "authors": ["須賀 弘篤", "北原 照代", "辻村 裕次"], "journal": "産業衛生学雑誌", "year": "2025", "volume": "67", "number": "2", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/2/67_2024-006-B/_article/-char/ja/"}, {"title": "金属加工労働者における皮膚疾患の業務起因性", "authors": ["熊谷 信二"], "journal": "産業衛生学雑誌", "year": "2025", "volume": "67", "number": "2", "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/2/67_2024-029-D/_article/-char/ja/"}, {"title": "Yuko OCHIAI", "authors": ["Yuko OCHIAI", "Yasumasa OTSUKA"], "journal": "Industrial Health", "year": "2025", "volume": "63", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0005/_article/-char/ja/"}, {"title": "Benito ZAMORANO-GONZÁLEZ", "authors": ["Benito ZAMORANO-GONZÁLEZ", "Fabiola PENA-CARDENAS", "Víctor PARRA-SIERRA", "Gloria Imelda HERNANDEZ-RODRIGUEZ"], "journal": "Industrial Health", "year": "2025", "volume": "63", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0114/_article/-char/ja/"}, {"title": "Mihoko MORI", "authors": ["Mihoko MORI", "Yoshitaka MORIMATSU", "Tatsuya ISHITAKE"], "journal": "Industrial Health", "year": "2025", "volume": "63", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0165/_article/-char/ja/"}, {"title": "Toshiki KISHIMOTO", "authors": ["Toshiki KISHIMOTO", "Yoshinori KITABATAKE", "Takayuki TAGUCHI", "Hiroaki NOBUHARA"], "journal": "Industrial Health", "year": "2025", "volume": "63", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2023-0166/_article/-char/ja/"}, {"title": "Ayako TAKATA", "authors": ["Ayako TAKATA", "Hiroshi YAMAUCHI", "Kiyotsugu YAMASHITA", "Masahito AMINAKA", "Toshiaki HITOMI"], "journal": "Industrial Health", "year": "2025", "volume": "63", "number": "1", "link": "https://www.jstage.jst.go.jp/article/indhealth/63/1/63_2024-0025/_article/-char/ja/"}, {"title": "労働衛生保護具とその適切な使用", "authors": ["上福元 清隆", "篠宮 真樹", "原 工司"], "journal": "産業医学レビュー", "year": "2025", "volume": "37", "number": "3", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_101/_article/-char/ja/"}, {"title": "ワーク・エンゲイジメント：研究と実践における最近10年の動向", "authors": ["島津 明人"], "journal": "産業医学レビュー", "year": "2025", "volume": "37", "number": "3", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_121/_article/-char/ja/"}, {"title": "カドミウムの産業衛生上の健康影響と労働衛生管理", "authors": ["星野 賢人", "角田 正史"], "journal": "産業医学レビュー", "year": "2025", "volume": "37", "number": "3", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_143/_article/-char/ja/"}, {"title": "組織の公正と従業員の健康", "authors": ["武藤 孝司"], "journal": "産業医学レビュー", "year": "2025", "volume": "38", "number": "1", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_1/_article/-char/ja/"}, {"title": "健康状態や働き方と労働災害との関係について", "authors": ["永田 智久", "小笠原 彩菜", "山本 彩加", "簑原 里奈", "森 貴大"], "journal": "産業医学レビュー", "year": "2025", "volume": "38", "number": "1", "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_30/_article/-char/ja/"}, {"title": "産業医科大学におけるシームレスな学生支援活動", "authors": ["上田 陽一"], "journal": "産業精神保健", "year": "2025", "volume": "33", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_1/_article/-char/ja/"}, {"title": "医療機関における治療と仕事の両立支援", "authors": ["細田 悦子"], "journal": "産業精神保健", "year": "2025", "volume": "33", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_10/_article/-char/ja/"}, {"title": "トランスジェンダーの事例から考える，職場のジェンダー・ルッキズム", "authors": ["立石 結夏"], "journal": "産業精神保健", "year": "2025", "volume": "33", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_13/_article/-char/ja/"}, {"title": "デジタル医療を用いた精神科医療の可能性", "authors": ["熊﨑 博一"], "journal": "産業精神保健", "year": "2025", "volume": "33", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_17/_article/-char/ja/"}, {"title": "若年性認知症の就労支援", "authors": ["池ノ内 篤子"], "journal": "産業精神保健", "year": "2025", "volume": "33", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jjomh/33/1/33_21/_article/-char/ja/"}, {"title": "産業看護職の健康施策決定プロセス関与コンピテンシー尺度の開発", "authors": ["金森 悟", "髙見澤 友美", "元田 紀子", "福田 吉治"], "journal": "日本産業看護学会誌", "year": "2025", "volume": "12", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohn/12/1/12_1/_article/-char/ja/"}, {"title": "治療と仕事の両立支援における産業看護職と臨床看護職との連携方策の妥当性の検討", "authors": ["河野 啓子", "杉崎 一美", "後藤 由紀", "一尾 麻美", "畑中 純子"], "journal": "日本産業看護学会誌", "year": "2025", "volume": "12", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohn/12/1/12_11/_article/-char/ja/"}, {"title": "職場外産業保健スタッフからのインフォーマルなサポートと産業看護職のコンピテンシーの関連", "authors": ["髙見澤 友美", "金森 悟", "福田 吉治"], "journal": "日本産業看護学会誌", "year": "2025", "volume": "12", "number": "2", "link": "https://www.jstage.jst.go.jp/article/jaohn/12/2/12_19/_article/-char/ja/"}, {"title": "転職を経験した産業看護職のキャリア形成の軌跡", "authors": ["吉田 麻美", "森田 理江", "三木 明子"], "journal": "日本産業看護学会誌", "year": "2025", "volume": "12", "number": "2", "link": "https://www.jstage.jst.go.jp/article/jaohn/12/2/12_28/_article/-char/ja/"}, {"title": "労働の「オン」と「オフ」の境界線", "authors": ["安中 繁"], "journal": "産業保健法学会誌", "year": "2025", "volume": "4", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_100/_article/-char/ja/"}, {"title": "安全配慮義務と職場のメンタルヘルスに関する現代的課題", "authors": ["林 和宏", "鎌田 直樹", "奥山 泰行", "大林 知華子", "湊谷 志貴子"], "journal": "産業保健法学会誌", "year": "2025", "volume": "4", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_105/_article/-char/ja/"}, {"title": "最近の労働衛生行政の動向", "authors": ["佐々木  孝治"], "journal": "産業保健法学会誌", "year": "2025", "volume": "4", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_11/_article/-char/ja/"}, {"title": "テレワークの産業保健法上の課題", "authors": ["佐藤 乃理子", "日比 友美子", "後藤 みずえ", "増田 陳彦", "渡邊 徹"], "journal": "産業保健法学会誌", "year": "2025", "volume": "4", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_114/_article/-char/ja/"}, {"title": "副業・兼業における健康管理と法", "authors": ["秋山 陽子", "竹野 佑喜", "宇佐川 邦子", "佐々木 毅", "鎌田 耕一"], "journal": "産業保健法学会誌", "year": "2025", "volume": "4", "number": "1", "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_119/_article/-char/ja/"}];
+    const thesaurus = {"メンタルヘルス": ["精神保健", "心の健康", "メンタル", "mental health", "精神衛生"], "ストレスチェック": ["ストレス調査", "心理的負担", "職業性ストレス", "stress check"], "ストレス": ["心理的負担", "精神的負担", "プレッシャー", "stress", "緊張"], "過重労働": ["長時間労働", "過労", "overwork", "時間外労働", "残業"], "健康診断": ["健診", "健康診査", "ヘルスチェック", "定期健診", "health examination"], "産業医": ["事業場医師", "嘱託医", "occupational physician"], "産業保健": ["職域保健", "労働衛生", "occupational health", "職場の健康"], "復職支援": ["リワーク", "職場復帰支援", "復帰支援", "return to work"], "職場復帰": ["復職", "リワーク", "return to work"], "労災": ["労働災害", "業務災害", "work injury"], "安全衛生": ["労働安全衛生", "職場安全", "safety and health"], "化学物質": ["有害物質", "危険物質", "chemical substance", "有機溶剤"], "熱中症": ["暑熱障害", "heat stroke", "熱射病"], "テレワーク": ["在宅勤務", "リモートワーク", "remote work"], "両立支援": ["治療と仕事の両立", "ワークライフバランス", "work-life balance"], "ハラスメント": ["パワハラ", "セクハラ", "いじめ", "嫌がらせ", "harassment"], "うつ病": ["うつ", "抑うつ", "depression", "気分障害"], "睡眠": ["不眠", "睡眠障害", "sleep", "insomnia"], "疲労": ["疲れ", "倦怠感", "fatigue", "慢性疲労"], "女性": ["女性労働者", "働く女性", "female", "women"], "高齢": ["高年齢", "シニア", "elderly", "aging"], "健康経営": ["health management", "健康投資", "ホワイト500"], "エンゲージメント": ["ワークエンゲージメント", "work engagement", "働きがい"], "バーンアウト": ["燃え尽き", "燃え尽き症候群", "burnout"]};
     
-    // Enterキーで検索
+    const searchInput = document.getElementById('searchInput');
+    const synonymsInfo = document.getElementById('synonymsInfo');
+    
     searchInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') doSearch();
     });
     
-    // 選択された雑誌コードを取得
-    function getSelectedJournals() {
-      const checkboxes = document.querySelectorAll('.search-options input[type="checkbox"]:checked');
-      return Array.from(checkboxes).map(cb => cb.value);
+    function getSynonyms(keyword) {
+      const kw = keyword.toLowerCase();
+      let synonyms = [keyword];
+      
+      // 完全一致でシソーラスを検索
+      for (const [key, values] of Object.entries(thesaurus)) {
+        if (key.toLowerCase() === kw || key.toLowerCase().includes(kw)) {
+          synonyms = synonyms.concat(values);
+          synonyms.push(key);
+        }
+        // 値にも含まれているかチェック
+        for (const v of values) {
+          if (v.toLowerCase() === kw || v.toLowerCase().includes(kw)) {
+            synonyms = synonyms.concat(values);
+            synonyms.push(key);
+            break;
+          }
+        }
+      }
+      
+      return [...new Set(synonyms)];
     }
     
-    // ハイライト処理
-    function highlightText(text, keyword) {
-      if (!text || !keyword) return text || '';
-      const regex = new RegExp('(' + keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-      return text.replace(regex, '<mark>$1</mark>');
+    function highlightText(text, keywords) {
+      let result = text;
+      for (const kw of keywords) {
+        const regex = new RegExp('(' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        result = result.replace(regex, '<mark>$1</mark>');
+      }
+      return result;
     }
     
-    // 検索実行
-    async function doSearch() {
+    function doSearch() {
       const keyword = searchInput.value.trim();
-      if (!keyword) {
-        alert('キーワードを入力してください');
-        return;
-      }
+      if (!keyword) return;
       
-      const journals = getSelectedJournals();
-      if (journals.length === 0) {
-        alert('少なくとも1つの雑誌を選択してください');
-        return;
-      }
+      const mode = document.querySelector('input[name="searchMode"]:checked').value;
+      let searchTerms = [keyword];
       
-      const yearFrom = document.getElementById('yearFrom').value;
-      const yearTo = document.getElementById('yearTo').value;
-      
-      // ローディング表示
-      resultsArea.innerHTML = `
-        <div class="loading">
-          <div class="loading-spinner"></div>
-          <p>J-STAGE APIから検索中...</p>
-        </div>
-      `;
-      searchBtn.disabled = true;
-      
-      try {
-        // Netlify Functionを呼び出し
-        const params = new URLSearchParams({
-          keyword: keyword,
-          journals: journals.join(',')
-        });
-        if (yearFrom) params.append('yearFrom', yearFrom);
-        if (yearTo) params.append('yearTo', yearTo);
-        
-        const response = await fetch(`/.netlify/functions/jstage-search?${params}`);
-        const data = await response.json();
-        
-        if (!data.success) {
-          throw new Error(data.error || 'APIエラー');
-        }
-        
-        if (data.results.length === 0) {
-          resultsArea.innerHTML = `
-            <div class="no-results">
-              <h3>該当する論文が見つかりませんでした</h3>
-              <p>別のキーワードや条件をお試しください</p>
-            </div>
-          `;
+      if (mode === 'synonym') {
+        searchTerms = getSynonyms(keyword);
+        if (searchTerms.length > 1) {
+          synonymsInfo.innerHTML = '🔍 検索語: ' + searchTerms.join(', ');
+          synonymsInfo.classList.add('show');
         } else {
-          renderResults(data.results, keyword);
+          synonymsInfo.classList.remove('show');
         }
-      } catch (error) {
-        console.error('Search error:', error);
-        resultsArea.innerHTML = `
-          <div class="error-state">
-            <h3>検索中にエラーが発生しました</h3>
-            <p>${error.message}</p>
-            <button class="retry-btn" onclick="doSearch()">再試行</button>
+      } else {
+        synonymsInfo.classList.remove('show');
+      }
+      
+      const results = articles.filter(article => {
+        const text = (article.title + ' ' + article.authors.join(' ')).toLowerCase();
+        return searchTerms.some(term => text.includes(term.toLowerCase()));
+      });
+      
+      renderResults(results, searchTerms);
+    }
+    
+    function renderResults(results, keywords) {
+      const area = document.getElementById('resultsArea');
+      
+      if (results.length === 0) {
+        area.innerHTML = `
+          <div class="no-results">
+            <h3>該当する論文が見つかりませんでした</h3>
+            <p>別のキーワードをお試しください</p>
           </div>
         `;
-      } finally {
-        searchBtn.disabled = false;
+        return;
       }
-    }
-    
-    // 結果表示
-    function renderResults(results, keyword) {
+      
       let html = `
         <div class="results-header">
-          <span class="results-count">
-            <strong>${results.length}</strong> 件の論文が見つかりました
-            ${results.length >= 100 ? '<small style="color: var(--text-light);">（各誌上位100件を表示）</small>' : ''}
-          </span>
+          <span class="results-count"><strong>${results.length}</strong> 件の論文が見つかりました</span>
         </div>
       `;
       
       for (const r of results) {
-        const title = highlightText(r.title, keyword);
-        const authorsStr = r.authors && r.authors.length > 0 
-          ? r.authors.slice(0, 3).join(', ') + (r.authors.length > 3 ? ' 他' : '')
-          : '';
-        const issue = r.year ? `${r.year}年` + (r.volume ? ` ${r.volume}巻` : '') + (r.number ? `${r.number}号` : '') : '';
+        const title = highlightText(r.title, keywords);
+        const authors = r.authors.slice(0, 3).join(', ') + (r.authors.length > 3 ? ' 他' : '');
+        const issue = r.year ? `${r.year}年 ${r.volume}巻${r.number}号` : '';
         
         html += `
           <a href="${r.link}" target="_blank" class="result-item">
             <div class="result-title">${title}</div>
             <div class="result-meta">
               <span class="result-journal">${r.journal}</span>
-              ${authorsStr}${issue ? ' / ' + issue : ''}
+              ${authors}${issue ? ' / ' + issue : ''}
             </div>
           </a>
         `;
       }
       
-      resultsArea.innerHTML = html;
+      area.innerHTML = html;
     }
   </script>
 </body>
