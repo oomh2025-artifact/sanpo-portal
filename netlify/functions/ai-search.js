@@ -78,7 +78,7 @@ function parseJstageResults(xml) {
   return results.slice(0, 5);
 }
 
-// Claude API呼び出し（Web検索付き）
+// Claude API呼び出し（Web検索なし - 高速版）
 function callClaude(query, jstageResults) {
   return new Promise((resolve, reject) => {
     const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -101,18 +101,11 @@ function callClaude(query, jstageResults) {
     
     const requestBody = JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 4096,
-      tools: [
-        {
-          type: 'web_search_20250305',
-          name: 'web_search',
-          max_uses: 3
-        }
-      ],
+      max_tokens: 2048,
       messages: [
         {
           role: 'user',
-          content: `あなたは産業保健の専門家アシスタントです。以下の質問に対して、提供された論文情報とWeb検索を活用して回答してください。
+          content: `あなたは産業保健の専門家アシスタントです。以下の質問に対して、提供された論文情報を活用して回答してください。
 
 【質問】
 ${query}
@@ -120,16 +113,10 @@ ${query}
 ${jstageContext}
 
 【指示】
-1. まず、厚生労働省(mhlw.go.jp)、安全衛生情報センター(jaish.gr.jp)、労働安全衛生総合研究所(jniosh.johas.go.jp)などの公的機関のサイトをWeb検索して、関連する最新のガイドライン、通達、法令情報を探してください。
-
-2. 以下の形式で回答してください：
-   - 質問への直接的な回答（200-400字程度）
-   - 重要なポイントを箇条書きで整理
-   - 参照した論文・資料のリスト
-
+1. 質問への直接的な回答（200-300字程度）
+2. 論文から得られる重要なポイントを箇条書きで整理
 3. 回答は日本語で、産業医や産業保健スタッフが実務で活用できる実践的な内容にしてください。
-
-4. 情報の出典を明確にし、不確かな情報は「～と考えられます」など表現を工夫してください。`
+4. 論文情報がない場合は、一般的な知識で回答し、詳しい情報は専門文献を参照するよう促してください。`
         }
       ]
     });
