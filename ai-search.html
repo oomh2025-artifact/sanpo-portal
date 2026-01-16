@@ -35,7 +35,6 @@
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-light);
-      z-index: 100;
     }
     .header-inner {
       max-width: 900px;
@@ -101,12 +100,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    .message.user {
-      align-self: flex-end;
-    }
-    .message.assistant {
-      align-self: flex-start;
-    }
+    .message.user { align-self: flex-end; }
+    .message.assistant { align-self: flex-start; }
     
     .message-content {
       padding: 14px 18px;
@@ -129,34 +124,16 @@
       font-size: 1rem;
       font-weight: 600;
       margin: 16px 0 8px;
-      color: var(--text);
     }
-    .message-content h3:first-child {
-      margin-top: 0;
-    }
+    .message-content h3:first-child { margin-top: 0; }
     .message-content ul, .message-content ol {
       margin: 8px 0;
       padding-left: 20px;
     }
-    .message-content li {
-      margin: 4px 0;
-    }
-    .message-content p {
-      margin: 8px 0;
-    }
-    .message-content a {
-      color: var(--accent-1);
-      text-decoration: none;
-    }
-    .message-content a:hover {
-      text-decoration: underline;
-    }
-    .message-content code {
-      background: rgba(0,0,0,0.06);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.85em;
-    }
+    .message-content li { margin: 4px 0; }
+    .message-content p { margin: 8px 0; }
+    .message-content a { color: var(--accent-1); text-decoration: none; }
+    .message-content a:hover { text-decoration: underline; }
     
     .source-card {
       display: block;
@@ -184,29 +161,26 @@
       color: var(--text-muted);
     }
     
-    .typing-indicator {
-      display: flex;
-      gap: 4px;
+    .status-message {
       padding: 14px 18px;
       background: var(--bg-chat);
       border-radius: 18px;
       border-bottom-left-radius: 6px;
-      width: fit-content;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .typing-indicator span {
-      width: 8px;
-      height: 8px;
-      background: var(--text-light);
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent-1);
       border-radius: 50%;
-      animation: bounce 1.4s infinite ease-in-out;
+      animation: spin 0.8s linear infinite;
     }
-    .typing-indicator span:nth-child(1) { animation-delay: 0s; }
-    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes bounce {
-      0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-      40% { transform: scale(1); opacity: 1; }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
     
     .welcome-message {
       text-align: center;
@@ -275,9 +249,7 @@
       max-height: 120px;
       line-height: 1.5;
     }
-    .chat-input::placeholder {
-      color: var(--text-light);
-    }
+    .chat-input::placeholder { color: var(--text-light); }
     .send-btn {
       width: 42px;
       height: 42px;
@@ -294,15 +266,8 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
-    .send-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .send-btn svg {
-      width: 20px;
-      height: 20px;
-      color: white;
-    }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .send-btn svg { width: 20px; height: 20px; color: white; }
     
     .disclaimer {
       text-align: center;
@@ -316,7 +281,6 @@
       .chat-messages { padding: 16px; }
       .chat-input-container { padding: 12px 16px 20px; }
       .message { max-width: 90%; }
-      .welcome-message { padding: 40px 16px; }
     }
   </style>
 </head>
@@ -342,11 +306,11 @@
     <div class="chat-messages" id="chatMessages">
       <div class="welcome-message">
         <h2>🔬 AI論文検索</h2>
-        <p>産業保健に関する論文と公的資料を横断検索し、<br>AIが要約・整理してお答えします。</p>
+        <p>産業保健に関する質問をすると、<br>関連論文を検索してAIがまとめます。</p>
         <div class="example-queries">
-          <span class="example-query" onclick="setQuery('ストレスチェック制度の最新動向')">ストレスチェック制度の最新動向</span>
-          <span class="example-query" onclick="setQuery('化学物質管理の法改正')">化学物質管理の法改正</span>
-          <span class="example-query" onclick="setQuery('テレワークと健康管理')">テレワークと健康管理</span>
+          <span class="example-query" onclick="setQuery('ストレスチェック制度の効果について教えて')">ストレスチェック制度の効果</span>
+          <span class="example-query" onclick="setQuery('治療と仕事の両立支援の現状')">治療と仕事の両立支援</span>
+          <span class="example-query" onclick="setQuery('テレワークと健康管理の課題')">テレワークと健康管理</span>
         </div>
       </div>
     </div>
@@ -377,7 +341,6 @@
     
     let isLoading = false;
     
-    // テキストエリアの自動リサイズ
     chatInput.addEventListener('input', function() {
       this.style.height = 'auto';
       this.style.height = Math.min(this.scrollHeight, 120) + 'px';
@@ -396,7 +359,6 @@
     }
     
     function addMessage(content, role) {
-      // ウェルカムメッセージを消す
       const welcome = chatMessages.querySelector('.welcome-message');
       if (welcome) welcome.remove();
       
@@ -408,45 +370,49 @@
       return div;
     }
     
-    function addTypingIndicator() {
+    function addStatus(text) {
       const div = document.createElement('div');
       div.className = 'message assistant';
-      div.id = 'typingIndicator';
-      div.innerHTML = `
-        <div class="typing-indicator">
-          <span></span><span></span><span></span>
-        </div>
-      `;
+      div.id = 'statusMessage';
+      div.innerHTML = `<div class="status-message"><div class="spinner"></div>${text}</div>`;
       chatMessages.appendChild(div);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
     
-    function removeTypingIndicator() {
-      const indicator = document.getElementById('typingIndicator');
-      if (indicator) indicator.remove();
+    function updateStatus(text) {
+      const status = document.getElementById('statusMessage');
+      if (status) {
+        status.innerHTML = `<div class="status-message"><div class="spinner"></div>${text}</div>`;
+      }
+    }
+    
+    function removeStatus() {
+      const status = document.getElementById('statusMessage');
+      if (status) status.remove();
     }
     
     function formatResponse(data) {
       let html = '';
       
-      // メイン回答
       if (data.answer) {
         html += data.answer
           .replace(/\n\n/g, '</p><p>')
           .replace(/\n/g, '<br>')
           .replace(/### (.*)/g, '<h3>$1</h3>')
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+          .replace(/## (.*)/g, '<h3>$1</h3>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/^\* (.*)/gm, '<li>$1</li>')
+          .replace(/^- (.*)/gm, '<li>$1</li>');
         html = '<p>' + html + '</p>';
       }
       
-      // 参照元
       if (data.sources && data.sources.length > 0) {
-        html += '<h3>📚 参照元</h3>';
+        html += '<h3>📚 参照した論文</h3>';
         for (const src of data.sources) {
           html += `
             <a href="${src.link}" target="_blank" class="source-card">
               <div class="source-card-title">${src.title}</div>
-              <div class="source-card-meta">${src.type || ''} ${src.meta || ''}</div>
+              <div class="source-card-meta">${src.type} ${src.meta}</div>
             </a>
           `;
         }
@@ -465,26 +431,57 @@
       chatInput.style.height = 'auto';
       
       addMessage(query, 'user');
-      addTypingIndicator();
+      addStatus('キーワードを抽出中...');
       
       try {
-        const res = await fetch('/.netlify/functions/ai-search', {
+        // ステップ1: AIでキーワード抽出
+        const keywordRes = await fetch('/.netlify/functions/ai-search', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query })
+          body: JSON.stringify({ action: 'extract_keywords', query })
         });
         
-        removeTypingIndicator();
+        if (!keywordRes.ok) throw new Error('キーワード抽出に失敗');
         
-        if (!res.ok) {
-          throw new Error('検索に失敗しました');
+        const keywordData = await keywordRes.json();
+        const keywords = keywordData.keywords || query;
+        console.log('Keywords:', keywords);
+        
+        // ステップ2: J-STAGEで論文検索
+        updateStatus(`「${keywords}」で論文を検索中...`);
+        
+        let articles = [];
+        const searchKeyword = keywords.split(',')[0].trim(); // 最初のキーワードで検索
+        
+        try {
+          const jstageRes = await fetch('/.netlify/functions/jstage-search?q=' + encodeURIComponent(searchKeyword));
+          if (jstageRes.ok) {
+            const jstageData = await jstageRes.json();
+            articles = jstageData.results || [];
+            console.log('Found articles:', articles.length);
+          }
+        } catch (e) {
+          console.log('J-STAGE error:', e);
         }
         
-        const data = await res.json();
+        // ステップ3: AIで回答生成
+        updateStatus(`${articles.length}件の論文をもとに回答を作成中...`);
+        
+        const summaryRes = await fetch('/.netlify/functions/ai-search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'summarize', query, articles })
+        });
+        
+        if (!summaryRes.ok) throw new Error('回答生成に失敗');
+        
+        const data = await summaryRes.json();
+        
+        removeStatus();
         addMessage(formatResponse(data), 'assistant');
         
       } catch (e) {
-        removeTypingIndicator();
+        removeStatus();
         addMessage(`<p>エラーが発生しました: ${e.message}</p><p>しばらく待ってから再度お試しください。</p>`, 'assistant');
       }
       
