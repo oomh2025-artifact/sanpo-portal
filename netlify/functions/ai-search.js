@@ -100,7 +100,7 @@ exports.handler = async function(event) {
       };
     }
     
-    // アクション2: 論文をまとめて回答生成
+    // アクション2: 論文をまとめて回答生成（公的資料もWeb検索）
     if (action === 'summarize') {
       console.log('Summarizing with', articles?.length || 0, 'articles');
       
@@ -114,9 +114,20 @@ exports.handler = async function(event) {
         });
       }
       
-      const response = await callClaude(apiKey, [{
-        role: 'user',
-        content: `あなたは産業保健の専門家アシスタントです。
+      // Web検索付きでClaude APIを呼び出し
+      const requestBody = JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2048,
+        tools: [
+          {
+            type: 'web_search_20250305',
+            name: 'web_search',
+            max_uses: 2
+          }
+        ],
+        messages: [{
+          role: 'user',
+          content: `あなたは産業保健の専門家アシスタントです。
 
 【質問】
 ${query}
@@ -124,12 +135,41 @@ ${query}
 ${articlesContext}
 
 【指示】
-1. 質問への直接的な回答（200-300字程度）
-2. 重要なポイントを3-5個の箇条書きで整理
-3. 論文情報がある場合は、それを参照して回答
-4. 論文情報がない場合は、一般的な知識で回答
-5. 産業医や産業保健スタッフが実務で活用できる実践的な内容で`
-      }], 2048);
+1. まず、厚生労働省(mhlw.go.jp)や安全衛生情報センター(jaish.gr.jp)などの公的機関サイトをWeb検索して、関連するガイドラインや通達を探してください。
+2. 論文情報と公的資料を統合して、質問への回答を作成してください（300-400字程度）
+3. 重要なポイントを3-5個の箇条書きで整理
+4. 産業医や産業保健スタッフが実務で活用できる実践的な内容で
+5. 公的資料のURLがあれば、参考として記載してください`
+        }]
+      });
+      
+      const options = {
+        hostname: 'api.anthropic.com',
+        path: '/v1/messages',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01'
+        }
+      };
+      
+      const response = await new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+          let data = '';
+          res.on('data', chunk => data += chunk);
+          res.on('end', () => {
+            try {
+              resolve(JSON.parse(data));
+            } catch (e) {
+              reject(e);
+            }
+          });
+        });
+        req.on('error', reject);
+        req.write(requestBody);
+        req.end();
+      });
       
       if (response.error) {
         throw new Error(response.error.message);
