@@ -68,7 +68,7 @@
     }
 
     .hero {
-      padding: 40px 0 60px;
+      padding: 60px 0 80px;
       text-align: center;
     }
     .hero-badge {
@@ -82,7 +82,7 @@
       font-size: 0.75rem;
       font-weight: 500;
       color: var(--text-muted);
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     .hero-badge::before {
       content: '';
@@ -90,75 +90,60 @@
       background: var(--accent-1);
       border-radius: 50%;
     }
-    .hero p {
-      font-size: 1rem;
+    .hero-subtitle {
+      font-size: 1.125rem;
       color: var(--text-muted);
       font-weight: 400;
-      margin-bottom: 8px;
+      margin-bottom: 32px;
     }
     
-    /* Search Box Styles */
+    /* 検索ボックス */
     .search-container {
-      max-width: 640px;
-      margin: 0 auto 48px;
+      max-width: 600px;
+      margin: 0 auto 16px;
     }
-    .search-box {
-      position: relative;
+    .search-form {
       display: flex;
-      align-items: center;
+      gap: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 8px 8px 8px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .search-box input {
-      width: 100%;
-      padding: 18px 24px 18px 56px;
+    .search-form:focus-within {
+      border-color: var(--accent-1);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    }
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
       font-size: 1rem;
       font-family: inherit;
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      background: var(--bg);
       color: var(--text);
-      transition: all 0.2s ease;
-      outline: none;
+      background: transparent;
     }
-    .search-box input::placeholder {
+    .search-input::placeholder {
       color: var(--text-light);
     }
-    .search-box input:focus {
-      border-color: var(--accent-1);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
-    .search-box .search-icon {
-      position: absolute;
-      left: 20px;
-      width: 22px;
-      height: 22px;
-      color: var(--text-light);
-      pointer-events: none;
-      transition: color 0.2s;
-    }
-    .search-box input:focus + .search-icon,
-    .search-box:hover .search-icon {
-      color: var(--accent-1);
-    }
-    .search-box button {
-      position: absolute;
-      right: 8px;
-      padding: 10px 20px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      font-family: inherit;
+    .search-btn {
+      padding: 12px 24px;
       background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
       color: white;
       border: none;
       border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .search-box button:hover {
+    .search-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
     .search-hint {
-      margin-top: 12px;
       font-size: 0.8rem;
       color: var(--text-light);
     }
@@ -298,11 +283,14 @@
     
     @media (max-width: 768px) {
       .cards { grid-template-columns: 1fr; }
-      .search-box input { padding: 16px 20px 16px 48px; font-size: 0.9rem; }
-      .search-box button { padding: 8px 16px; font-size: 0.8rem; }
       .article-row { grid-template-columns: 1fr; gap: 8px; }
       .article-num { display: none; }
       .article-meta { justify-self: start; }
+      .search-form {
+        flex-direction: column;
+        padding: 12px;
+      }
+      .search-btn { width: 100%; }
     }
   </style>
 </head>
@@ -327,15 +315,12 @@
   <main>
     <section class="hero">
       <div class="hero-badge">産業保健専門ポータル</div>
-      <p>法令・ガイドライン・学術情報を一元的に収集</p>
+      <p class="hero-subtitle">法令・ガイドライン・学術情報を一元的に収集</p>
       
       <div class="search-container">
-        <form class="search-box" action="search.html" method="get">
-          <input type="text" name="q" placeholder="キーワードで論文を検索..." autocomplete="off">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-          <button type="submit">検索</button>
+        <form class="search-form" onsubmit="goSearch(event)">
+          <input type="text" class="search-input" id="searchInput" placeholder="キーワードで論文を検索...">
+          <button type="submit" class="search-btn">検索</button>
         </form>
         <p class="search-hint">類義語シソーラスで論文を横断検索</p>
       </div>
@@ -417,5 +402,16 @@
   <footer>
     <p>© SANPO PORTAL · Last updated: 2026-01-12 15:48</p>
   </footer>
+  
+  <script>
+    function goSearch(e) {
+      e.preventDefault();
+      const keyword = document.getElementById('searchInput').value.trim();
+      if (keyword) {
+        // 検索ワードをURLパラメータとしてsearch.htmlに渡す
+        window.location.href = 'search.html?q=' + encodeURIComponent(keyword);
+      }
+    }
+  </script>
 </body>
 </html>
