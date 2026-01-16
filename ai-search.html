@@ -464,8 +464,8 @@
           console.log('J-STAGE error:', e);
         }
         
-        // ステップ3: AIで回答生成
-        updateStatus(`${articles.length}件の論文をもとに回答を作成中...`);
+        // ステップ3: AIで回答生成（公的資料も検索）
+        updateStatus(`${articles.length}件の論文 + 公的資料を検索して回答作成中...`);
         
         const summaryRes = await fetch('/.netlify/functions/ai-search', {
           method: 'POST',
