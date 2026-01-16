@@ -147,6 +147,41 @@
       font-size: 0.8rem;
       color: var(--text-light);
     }
+    .ai-search-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--accent-1);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .ai-search-link:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+      border-color: var(--accent-1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    }
+    .ai-search-link svg {
+      transition: transform 0.2s;
+    }
+    .ai-search-link:hover svg {
+      transform: translateX(3px);
+    }
+    .ai-badge {
+      padding: 4px 8px;
+      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+      color: white;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
     
     .cards {
       display: grid;
@@ -323,6 +358,11 @@
           <button type="submit" class="search-btn">検索</button>
         </form>
         <p class="search-hint">類義語シソーラスで論文を横断検索</p>
+        <a href="ai-search.html" class="ai-search-link">
+          <span class="ai-badge">✨ AI</span>
+          論文・公的資料をAIがまとめて回答
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </section>
     
