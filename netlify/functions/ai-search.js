@@ -21,6 +21,7 @@ function callClaude(apiKey, messages, maxTokens = 2048) {
     };
     
     const req = https.request(options, (res) => {
+      res.setEncoding('utf8');
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
@@ -158,6 +159,7 @@ ${articlesContext}
       
       const response = await new Promise((resolve, reject) => {
         const req = https.request(options, (res) => {
+          res.setEncoding('utf8');
           let data = '';
           res.on('data', chunk => data += chunk);
           res.on('end', () => {
