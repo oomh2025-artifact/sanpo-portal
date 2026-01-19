@@ -90,22 +90,102 @@
       background: var(--accent-1);
       border-radius: 50%;
     }
-    .hero h1 {
-      font-size: clamp(2rem, 4vw, 3.25rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      margin-bottom: 16px;
-    }
-    .hero p {
+    .hero-subtitle {
       font-size: 1.125rem;
       color: var(--text-muted);
       font-weight: 400;
+      margin-bottom: 32px;
+    }
+    
+    /* 検索ボックス */
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto 16px;
+    }
+    .search-form {
+      display: flex;
+      gap: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 8px 8px 8px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-form:focus-within {
+      border-color: var(--accent-1);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    }
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--text);
+      background: transparent;
+    }
+    .search-input::placeholder {
+      color: var(--text-light);
+    }
+    .search-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .search-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+    .search-hint {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+    .ai-search-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--accent-1);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .ai-search-link:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+      border-color: var(--accent-1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    }
+    .ai-search-link svg {
+      transition: transform 0.2s;
+    }
+    .ai-search-link:hover svg {
+      transform: translateX(3px);
+    }
+    .ai-badge {
+      padding: 4px 8px;
+      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+      color: white;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
     
     .cards {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-bottom: 80px;
     }
@@ -134,7 +214,6 @@
     .card:nth-child(1) .card-icon { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; }
     .card:nth-child(2) .card-icon { background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); color: white; }
     .card:nth-child(3) .card-icon { background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%); color: white; }
-    .card:nth-child(4) .card-icon { background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); color: white; }
     .card h2 {
       font-size: 1.125rem;
       font-weight: 600;
@@ -242,6 +321,11 @@
       .article-row { grid-template-columns: 1fr; gap: 8px; }
       .article-num { display: none; }
       .article-meta { justify-self: start; }
+      .search-form {
+        flex-direction: column;
+        padding: 12px;
+      }
+      .search-btn { width: 100%; }
     }
   </style>
 </head>
@@ -260,15 +344,26 @@
         <a href="seido.html">制度改正</a>
         <a href="articles.html">最新記事</a>
         <a href="journals.html">雑誌一覧</a>
-        <a href="search.html">検索</a>
       </nav>
     </div>
   </header>
   <main>
     <section class="hero">
       <div class="hero-badge">産業保健専門ポータル</div>
-      <h1>産業保健情報を、<br>ひとつの場所に。</h1>
-      <p>法令・ガイドライン・学術情報を一元的に収集</p>
+      <p class="hero-subtitle">法令・ガイドライン・学術情報を一元的に収集</p>
+      
+      <div class="search-container">
+        <form class="search-form" onsubmit="goSearch(event)">
+          <input type="text" class="search-input" id="searchInput" placeholder="キーワードで論文を検索...">
+          <button type="submit" class="search-btn">検索</button>
+        </form>
+        <p class="search-hint">類義語シソーラスで論文を横断検索</p>
+        <a href="ai-search.html" class="ai-search-link">
+          <span class="ai-badge">✨ AI</span>
+          論文・公的資料をAIがまとめて回答
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </section>
     
     <div class="cards">
@@ -298,16 +393,6 @@
         </div>
         <h2>雑誌一覧</h2>
         <p>J-STAGE無料閲覧<br>可能な学術誌</p>
-        <div class="card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-      <a href="search.html" class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </div>
-        <h2>キーワード検索</h2>
-        <p>類義語シソーラスで<br>論文を横断検索</p>
         <div class="card-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
@@ -355,7 +440,18 @@
   </main>
   
   <footer>
-    <p>© SANPO PORTAL · Last updated: 2026-01-19 01:07</p>
+    <p>© SANPO PORTAL · Last updated: 2026-01-12 15:48</p>
   </footer>
+  
+  <script>
+    function goSearch(e) {
+      e.preventDefault();
+      const keyword = document.getElementById('searchInput').value.trim();
+      if (keyword) {
+        // 検索ワードをURLパラメータとしてsearch.htmlに渡す
+        window.location.href = 'search.html?q=' + encodeURIComponent(keyword);
+      }
+    }
+  </script>
 </body>
 </html>
