@@ -36,19 +36,6 @@
       border-bottom: 1px solid var(--border-light);
       z-index: 100;
     }
-    .back-to-top {
-      position: absolute;
-      right: 40px;
-      top: 70px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-    .back-to-top:hover { color: var(--accent-1); }
     .header-inner {
       max-width: 1200px; margin: 0 auto;
       padding: 18px 40px;
@@ -81,8 +68,7 @@
     }
 
     .page-header {
-      padding: 40px 0 40px;
-      text-align: center;
+      padding: 40px 0 60px;
     }
     .page-header h1 {
       font-size: clamp(1.75rem, 3vw, 2.5rem);
@@ -94,81 +80,56 @@
       font-size: 1rem;
       color: var(--text-muted);
     }
-    
-    /* 3列2行グリッド */
-    .journal-grid {
+    .journal-list {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 16px;
     }
-    
     .journal-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: start;
+      gap: 24px;
       padding: 28px;
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: var(--bg-secondary);
       border-radius: 20px;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
     }
     .journal-card:hover {
-      border-color: var(--accent-1);
-      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.08);
-      transform: translateY(-2px);
+      background: white;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
     }
-    
     .journal-card-icon {
       width: 56px; height: 56px;
       border-radius: 16px;
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px;
+      color: white;
     }
-    .journal-card-icon svg { width: 28px; height: 28px; color: white; }
-    
-    .journal-card h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--text);
-    }
-    .journal-card .publisher {
+    .journal-card-icon svg { width: 28px; height: 28px; }
+    .journal-card-content h2 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+    .journal-card-content h2 a { color: var(--text); text-decoration: none; }
+    .journal-card-content h2 a:hover { color: var(--accent-1); }
+    .journal-card-content .publisher { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; }
+    .journal-card-content .description { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .journal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: white;
+      border-radius: 10px;
       font-size: 0.8rem;
-      color: var(--text-light);
-      margin-bottom: 12px;
-    }
-    .journal-card .description {
-      font-size: 0.875rem;
+      font-weight: 500;
       color: var(--text-muted);
-      line-height: 1.6;
-      flex-grow: 1;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
-    
-    .journal-card-arrow {
-      position: absolute;
-      top: 24px; right: 24px;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--bg-secondary);
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s;
-    }
-    .journal-card-arrow svg { width: 14px; height: 14px; color: var(--text-light); transition: all 0.3s; }
-    .journal-card:hover .journal-card-arrow { background: var(--accent-1); }
-    .journal-card:hover .journal-card-arrow svg { color: white; transform: translateX(2px); }
-    
-    footer {
-      margin-top: 80px;
-      padding: 32px 0;
-      border-top: 1px solid var(--border-light);
-      text-align: center;
-    }
-    footer p { font-size: 0.8rem; color: var(--text-light); }
-    
+    .journal-link:hover { color: var(--accent-1); box-shadow: 0 2px 8px rgba(99,102,241,0.15); }
+    .journal-link svg { width: 14px; height: 14px; }
     @media (max-width: 768px) {
-      .journal-grid { grid-template-columns: 1fr; }
+      .journal-card { grid-template-columns: 1fr; gap: 16px; }
+      .journal-link { justify-self: start; }
     }
   </style>
 </head>
@@ -187,96 +148,101 @@
         <a href="seido.html">制度改正</a>
         <a href="articles.html">最新記事</a>
         <a href="journals.html" class="active">雑誌一覧</a>
+        <a href="search.html">検索</a>
       </nav>
     </div>
-    <a href="index.html" class="back-to-top">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      トップに戻る
-    </a>
   </header>
   <main>
     <div class="page-header">
       <h1>雑誌一覧</h1>
       <p>J-STAGEで無料閲覧可能な産業保健関連学術誌</p>
     </div>
-    
-    <div class="journal-grid">
-      <a href="https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja" target="_blank" class="journal-card">
-        <div class="journal-card-icon" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        </div>
-        <h2>産業衛生学雑誌</h2>
+    <div class="journal-list">
+    <div class="journal-card">
+      <div class="journal-card-icon" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      <div class="journal-card-content">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja" target="_blank">産業衛生学雑誌</a></h2>
         <p class="publisher">日本産業衛生学会</p>
         <p class="description">産業保健・労働衛生分野の原著論文、総説、症例報告などを掲載。国内最大の産業保健専門誌。</p>
-        <div class="journal-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        </div>
-      </a>
-      
-      <a href="https://www.jstage.jst.go.jp/browse/indhealth/-char/ja" target="_blank" class="journal-card">
-        <div class="journal-card-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        </div>
-        <h2>Industrial Health</h2>
-        <p class="publisher">労働安全衛生総合研究所</p>
-        <p class="description">世界各国の産業保健研究を掲載する国際英文誌。オープンアクセス。</p>
-        <div class="journal-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        </div>
-      </a>
-      
-      <a href="https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja" target="_blank" class="journal-card">
-        <div class="journal-card-icon" style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        </div>
-        <h2>産業医学レビュー</h2>
-        <p class="publisher">産業医学振興財団</p>
-        <p class="description">産業医・産業保健専門職向けの実務に役立つ総説・解説誌。</p>
-        <div class="journal-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        </div>
-      </a>
-      
-      <a href="https://www.jstage.jst.go.jp/browse/jjomh/-char/ja" target="_blank" class="journal-card">
-        <div class="journal-card-icon" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        </div>
-        <h2>産業精神保健</h2>
-        <p class="publisher">日本産業精神保健学会</p>
-        <p class="description">職場のメンタルヘルスに特化。ストレスチェック、復職支援などを掲載。</p>
-        <div class="journal-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        </div>
-      </a>
-      
-      <a href="https://www.jstage.jst.go.jp/browse/jaohn/-char/ja" target="_blank" class="journal-card">
-        <div class="journal-card-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        </div>
-        <h2>日本産業看護学会誌</h2>
-        <p class="publisher">日本産業看護学会</p>
-        <p class="description">産業看護職の実践と研究に関する論文を掲載。</p>
-        <div class="journal-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        </div>
-      </a>
-      
-      <a href="https://www.jstage.jst.go.jp/browse/jaohl/-char/ja" target="_blank" class="journal-card">
-        <div class="journal-card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        </div>
-        <h2>産業保健法学会誌</h2>
-        <p class="publisher">日本産業保健法学会</p>
-        <p class="description">産業保健と法律の接点を扱う専門誌。労働安全衛生法、労災認定など。</p>
-        <div class="journal-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-        </div>
+      </div>
+      <a href="https://www.jstage.jst.go.jp/browse/sangyoeisei/-char/ja" target="_blank" class="journal-link">
+        J-STAGEで開く
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
       </a>
     </div>
+    <div class="journal-card">
+      <div class="journal-card-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      <div class="journal-card-content">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/indhealth/-char/ja" target="_blank">Industrial Health</a></h2>
+        <p class="publisher">労働安全衛生総合研究所</p>
+        <p class="description">世界各国の産業保健研究を掲載する国際英文誌。オープンアクセス。</p>
+      </div>
+      <a href="https://www.jstage.jst.go.jp/browse/indhealth/-char/ja" target="_blank" class="journal-link">
+        J-STAGEで開く
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+    <div class="journal-card">
+      <div class="journal-card-icon" style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      <div class="journal-card-content">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja" target="_blank">産業医学レビュー</a></h2>
+        <p class="publisher">産業医学振興財団</p>
+        <p class="description">産業医・産業保健専門職向けの実務に役立つ総説・解説誌。</p>
+      </div>
+      <a href="https://www.jstage.jst.go.jp/browse/ohpfrev/-char/ja" target="_blank" class="journal-link">
+        J-STAGEで開く
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+    <div class="journal-card">
+      <div class="journal-card-icon" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      <div class="journal-card-content">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/jjomh/-char/ja" target="_blank">産業精神保健</a></h2>
+        <p class="publisher">日本産業精神保健学会</p>
+        <p class="description">職場のメンタルヘルスに特化。ストレスチェック、復職支援などを掲載。</p>
+      </div>
+      <a href="https://www.jstage.jst.go.jp/browse/jjomh/-char/ja" target="_blank" class="journal-link">
+        J-STAGEで開く
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+    <div class="journal-card">
+      <div class="journal-card-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      <div class="journal-card-content">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/jaohn/-char/ja" target="_blank">日本産業看護学会誌</a></h2>
+        <p class="publisher">日本産業看護学会</p>
+        <p class="description">産業看護職の実践と研究に関する論文を掲載。</p>
+      </div>
+      <a href="https://www.jstage.jst.go.jp/browse/jaohn/-char/ja" target="_blank" class="journal-link">
+        J-STAGEで開く
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+    <div class="journal-card">
+      <div class="journal-card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      </div>
+      <div class="journal-card-content">
+        <h2><a href="https://www.jstage.jst.go.jp/browse/jaohl/-char/ja" target="_blank">産業保健法学会誌</a></h2>
+        <p class="publisher">日本産業保健法学会</p>
+        <p class="description">産業保健と法律の接点を扱う専門誌。労働安全衛生法、労災認定など。</p>
+      </div>
+      <a href="https://www.jstage.jst.go.jp/browse/jaohl/-char/ja" target="_blank" class="journal-link">
+        J-STAGEで開く
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
+    </div>
+    </div>
   </main>
-  
-  <footer>
-    <p>© SANPO PORTAL</p>
-  </footer>
 </body>
 </html>

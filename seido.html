@@ -36,19 +36,6 @@
       border-bottom: 1px solid var(--border-light);
       z-index: 100;
     }
-    .back-to-top {
-      position: absolute;
-      right: 40px;
-      top: 70px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-    .back-to-top:hover { color: var(--accent-1); }
     .header-inner {
       max-width: 1200px; margin: 0 auto;
       padding: 18px 40px;
@@ -81,8 +68,7 @@
     }
 
     .page-header {
-      padding: 40px 0 40px;
-      text-align: center;
+      padding: 40px 0 60px;
     }
     .page-header h1 {
       font-size: clamp(1.75rem, 3vw, 2.5rem);
@@ -94,76 +80,104 @@
       font-size: 1rem;
       color: var(--text-muted);
     }
-    
-    /* 3列2行グリッド */
-    .link-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    
-    .link-card {
-      position: relative;
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
       display: flex;
-      flex-direction: column;
-      padding: 28px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .news-section {
+      margin-bottom: 60px;
+    }
+    .news-list {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .news-item {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
       text-decoration: none;
       color: inherit;
-      transition: all 0.3s ease;
+      border-bottom: 1px solid var(--border-light);
+      transition: background 0.2s;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item:hover { background: white; }
+    .news-date {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-variant-numeric: tabular-nums;
+    }
+    .news-title {
+      font-size: 0.9rem;
+      font-weight: 450;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .news-item:hover .news-title { color: var(--accent-1); }
+    .news-arrow {
+      color: var(--text-light);
+      transition: all 0.2s;
+    }
+    .news-item:hover .news-arrow {
+      color: var(--accent-1);
+      transform: translateX(3px);
+    }
+    .news-empty {
+      padding: 32px;
+      text-align: center;
+      color: var(--text-light);
+    }
+    .link-list {
+      display: grid;
+      gap: 12px;
+    }
+    .link-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 28px;
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
     }
     .link-card:hover {
-      border-color: var(--accent-1);
-      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.08);
-      transform: translateY(-2px);
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transform: translateX(4px);
     }
-    
-    .link-card-icon {
-      width: 56px; height: 56px;
-      border-radius: 16px;
+    .link-icon {
+      width: 44px; height: 44px;
+      background: white;
+      border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .link-card-icon svg { width: 28px; height: 28px; color: white; }
-    
-    .link-card h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-    .link-card p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-    
-    .link-card-arrow {
-      position: absolute;
-      top: 24px; right: 24px;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--bg-secondary);
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s;
-    }
-    .link-card-arrow svg { width: 14px; height: 14px; color: var(--text-light); transition: all 0.3s; }
-    .link-card:hover .link-card-arrow { background: var(--accent-1); }
-    .link-card:hover .link-card-arrow svg { color: white; transform: translateX(2px); }
-    
-    footer {
-      margin-top: 80px;
-      padding: 32px 0;
-      border-top: 1px solid var(--border-light);
-      text-align: center;
-    }
-    footer p { font-size: 0.8rem; color: var(--text-light); }
-    
-    @media (max-width: 768px) {
-      .link-grid { grid-template-columns: 1fr; }
-    }
+    .link-icon svg { width: 20px; height: 20px; color: var(--accent-1); }
+    .link-content h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+    .link-content p { font-size: 0.8rem; color: var(--text-muted); }
+    .link-arrow { color: var(--text-light); transition: all 0.2s; }
+    .link-card:hover .link-arrow { color: var(--accent-1); }
   </style>
 </head>
 <body>
@@ -181,90 +195,85 @@
         <a href="seido.html" class="active">制度改正</a>
         <a href="articles.html">最新記事</a>
         <a href="journals.html">雑誌一覧</a>
+        <a href="search.html">検索</a>
       </nav>
     </div>
-    <a href="index.html" class="back-to-top">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      トップに戻る
-    </a>
   </header>
   <main>
     <div class="page-header">
       <h1>制度改正・法令情報</h1>
-      <p>産業保健に関する主要な情報源</p>
+      <p>産業保健に関する最新ニュースと主要な情報源</p>
     </div>
     
-    <div class="link-grid">
+    <section class="news-section">
+      <div class="section-title">厚労省 新着情報（産業保健関連）</div>
+      <div class="news-list"><div class="news-empty">新着情報はありません</div>
+      </div>
+    </section>
+    
+    <div class="section-title">関連リンク</div>
+    <div class="link-list">
       <a href="https://anzeninfo.mhlw.go.jp/" target="_blank" class="link-card">
-        <div class="link-card-icon" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)">
+        <div class="link-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
         </div>
-        <h2>厚生労働省 職場の安全サイト</h2>
-        <p>労働安全衛生に関する情報ポータル。法令・通達・ガイドラインを掲載。</p>
-        <div class="link-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        <div class="link-content">
+          <h3>厚生労働省 職場の安全サイト</h3>
+          <p>労働安全衛生に関する情報ポータル</p>
         </div>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
       </a>
-      
       <a href="https://www.jaish.gr.jp/" target="_blank" class="link-card">
-        <div class="link-card-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%)">
+        <div class="link-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7zm0 5h16M9 4v16"/></svg>
         </div>
-        <h2>安全衛生情報センター (JAISH)</h2>
-        <p>法令・通達・ガイドラインのデータベース。GHS対応モデルラベル等。</p>
-        <div class="link-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        <div class="link-content">
+          <h3>安全衛生情報センター (JAISH)</h3>
+          <p>法令・通達・ガイドラインのデータベース</p>
         </div>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
       </a>
-      
       <a href="https://kokoro.mhlw.go.jp/" target="_blank" class="link-card">
-        <div class="link-card-icon" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)">
+        <div class="link-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
         </div>
-        <h2>こころの耳</h2>
-        <p>職場のメンタルヘルス対策。ストレスチェック制度、相談窓口など。</p>
-        <div class="link-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        <div class="link-content">
+          <h3>こころの耳</h3>
+          <p>職場のメンタルヘルス対策</p>
         </div>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
       </a>
-      
       <a href="https://www.johas.go.jp/sangyouhoken/" target="_blank" class="link-card">
-        <div class="link-card-icon" style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%)">
+        <div class="link-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
         </div>
-        <h2>産業保健総合支援センター</h2>
-        <p>地域の産業保健活動支援。研修・相談・情報提供。</p>
-        <div class="link-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        <div class="link-content">
+          <h3>産業保健総合支援センター</h3>
+          <p>地域の産業保健活動支援</p>
         </div>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
       </a>
-      
       <a href="https://elaws.e-gov.go.jp/" target="_blank" class="link-card">
-        <div class="link-card-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%)">
+        <div class="link-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </div>
-        <h2>e-Gov法令検索</h2>
-        <p>法令の原文検索。労働安全衛生法、じん肺法など全文閲覧可能。</p>
-        <div class="link-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        <div class="link-content">
+          <h3>e-Gov法令検索</h3>
+          <p>法令の原文検索</p>
         </div>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
       </a>
-      
       <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/anzen/anzeneisei36/index.html" target="_blank" class="link-card">
-        <div class="link-card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)">
+        <div class="link-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         </div>
-        <h2>届出・申請等帳票</h2>
-        <p>各種届出様式のダウンロード。健康診断結果報告書など。</p>
-        <div class="link-card-arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        <div class="link-content">
+          <h3>届出・申請等帳票</h3>
+          <p>各種届出様式のダウンロード</p>
         </div>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
       </a>
     </div>
   </main>
-  
-  <footer>
-    <p>© SANPO PORTAL</p>
-  </footer>
 </body>
 </html>
