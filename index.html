@@ -68,7 +68,7 @@
     }
 
     .hero {
-      padding: 60px 0 40px;
+      padding: 60px 0 80px;
       text-align: center;
     }
     .hero-badge {
@@ -102,113 +102,10 @@
       color: var(--text-muted);
       font-weight: 400;
     }
-
-    /* 検索エリア */
-    .search-area {
-      max-width: 720px;
-      margin: 0 auto 60px;
-    }
-    .search-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-      justify-content: center;
-    }
-    .search-tab {
-      padding: 8px 20px;
-      border: none;
-      background: transparent;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-radius: 100px;
-      transition: all 0.2s;
-    }
-    .search-tab:hover {
-      color: var(--text);
-    }
-    .search-tab.active {
-      background: var(--text);
-      color: white;
-    }
-    .search-tab.ai-tab.active {
-      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
-    }
-    .search-box {
-      position: relative;
-    }
-    .search-input {
-      width: 100%;
-      padding: 18px 60px 18px 24px;
-      font-size: 1rem;
-      font-family: inherit;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: var(--bg);
-      color: var(--text);
-      outline: none;
-      transition: all 0.2s;
-    }
-    .search-input:focus {
-      border-color: var(--accent-1);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
-    .search-input::placeholder {
-      color: var(--text-light);
-    }
-    .search-input.ai-mode {
-      border-color: var(--accent-2);
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
-    }
-    .search-input.ai-mode:focus {
-      border-color: var(--accent-2);
-      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
-    }
-    .search-btn {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      border: none;
-      border-radius: 12px;
-      background: var(--text);
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-    .search-btn:hover {
-      background: var(--accent-1);
-      transform: translateY(-50%) scale(1.05);
-    }
-    .search-btn.ai-mode {
-      background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
-    }
-    .search-btn.ai-mode:hover {
-      opacity: 0.9;
-    }
-    .search-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-    .search-hint {
-      margin-top: 12px;
-      font-size: 0.8rem;
-      color: var(--text-light);
-      text-align: center;
-    }
-    .search-hint.ai-hint {
-      color: var(--accent-2);
-    }
     
     .cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       margin-bottom: 80px;
     }
@@ -237,6 +134,7 @@
     .card:nth-child(1) .card-icon { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; }
     .card:nth-child(2) .card-icon { background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); color: white; }
     .card:nth-child(3) .card-icon { background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%); color: white; }
+    .card:nth-child(4) .card-icon { background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); color: white; }
     .card h2 {
       font-size: 1.125rem;
       font-weight: 600;
@@ -344,8 +242,6 @@
       .article-row { grid-template-columns: 1fr; gap: 8px; }
       .article-num { display: none; }
       .article-meta { justify-self: start; }
-      .search-tabs { flex-wrap: wrap; }
-      .search-input { padding: 16px 56px 16px 20px; font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -374,21 +270,6 @@
       <h1>産業保健情報を、<br>ひとつの場所に。</h1>
       <p>法令・ガイドライン・学術情報を一元的に収集</p>
     </section>
-
-    <!-- 検索エリア -->
-    <div class="search-area">
-      <div class="search-tabs">
-        <button class="search-tab active" data-mode="keyword">キーワード検索</button>
-        <button class="search-tab ai-tab" data-mode="ai">AI検索</button>
-      </div>
-      <div class="search-box">
-        <input type="text" class="search-input" id="searchInput" placeholder="キーワードを入力して検索...">
-        <button class="search-btn" id="searchBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </button>
-      </div>
-      <p class="search-hint" id="searchHint">類義語シソーラスで論文を横断検索</p>
-    </div>
     
     <div class="cards">
       <a href="seido.html" class="card">
@@ -417,6 +298,16 @@
         </div>
         <h2>雑誌一覧</h2>
         <p>J-STAGE無料閲覧<br>可能な学術誌</p>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+      <a href="search.html" class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <h2>キーワード検索</h2>
+        <p>類義語シソーラスで<br>論文を横断検索</p>
         <div class="card-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </div>
@@ -464,59 +355,7 @@
   </main>
   
   <footer>
-    <p>© SANPO PORTAL · Last updated: 2026-02-02 01:17</p>
+    <p>© SANPO PORTAL · Last updated: 2026-02-09 01:18</p>
   </footer>
-
-  <script>
-    // 検索タブ切り替え
-    const tabs = document.querySelectorAll('.search-tab');
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchHint = document.getElementById('searchHint');
-    
-    let currentMode = 'keyword';
-    
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentMode = tab.dataset.mode;
-        
-        if (currentMode === 'ai') {
-          searchInput.classList.add('ai-mode');
-          searchBtn.classList.add('ai-mode');
-          searchInput.placeholder = '質問を入力してください（例：メンタルヘルス対策のポイントは？）';
-          searchHint.textContent = 'AIが論文を横断的に分析して回答します';
-          searchHint.classList.add('ai-hint');
-          searchBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 011 1v3a1 1 0 01-1 1h-1v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1H2a1 1 0 01-1-1v-3a1 1 0 011-1h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2z"/><circle cx="8.5" cy="14.5" r="1.5"/><circle cx="15.5" cy="14.5" r="1.5"/></svg>';
-        } else {
-          searchInput.classList.remove('ai-mode');
-          searchBtn.classList.remove('ai-mode');
-          searchInput.placeholder = 'キーワードを入力して検索...';
-          searchHint.textContent = '類義語シソーラスで論文を横断検索';
-          searchHint.classList.remove('ai-hint');
-          searchBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>';
-        }
-      });
-    });
-    
-    // 検索実行
-    searchBtn.addEventListener('click', () => {
-      const query = searchInput.value.trim();
-      if (query) {
-        if (currentMode === 'ai') {
-          window.location.href = `ai-search.html?q=${encodeURIComponent(query)}`;
-        } else {
-          window.location.href = `search.html?q=${encodeURIComponent(query)}`;
-        }
-      }
-    });
-    
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        searchBtn.click();
-      }
-    });
-  </script>
 </body>
 </html>
