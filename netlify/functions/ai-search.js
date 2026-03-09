@@ -1,232 +1,91 @@
-const https = require('https');
-
-// Claude API呼び出し
-function callClaude(apiKey, messages, maxTokens = 2048) {
-  return new Promise((resolve, reject) => {
-    const requestBody = JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: maxTokens,
-      messages: messages
-    });
-    
-    const options = {
-      hostname: 'api.anthropic.com',
-      path: '/v1/messages',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      }
-    };
-    
-    const req = https.request(options, (res) => {
-      res.setEncoding('utf8');
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
-    
-    req.on('error', reject);
-    req.write(requestBody);
-    req.end();
-  });
-}
-
-// レスポンスからテキスト抽出
-function extractText(response) {
-  if (!response.content) return '';
-  return response.content
-    .filter(b => b.type === 'text')
-    .map(b => b.text)
-    .join('');
-}
-
-// メインハンドラー
-exports.handler = async function(event) {
+exports.handler = async (event) => {
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Content-Type': 'application/json; charset=utf-8'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
   };
-  
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return { statusCode: 204, headers: { ...headers, 'Access-Control-Allow-Methods': 'POST', 'Access-Control-Allow-Headers': 'Content-Type' } };
   }
-  
+
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
-  
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'API key not configured' }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'ANTHROPIC_API_KEY が設定されていません' }) };
   }
-  
+
+  let body;
+  try { body = JSON.parse(event.body); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) }; }
+
+  const { action, query, articles } = body;
+
+  async function callClaude(prompt, maxTokens = 300) {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: maxTokens,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`Anthropic API error: ${res.status} ${err}`);
+    }
+    const data = await res.json();
+    return data.content?.[0]?.text || '';
+  }
+
   try {
-    const { action, query, articles } = JSON.parse(event.body);
-    
-    // アクション1: キーワード抽出
+    // --- キーワード抽出 ---
     if (action === 'extract_keywords') {
-      console.log('Extracting keywords from:', query);
-      
-      const response = await callClaude(apiKey, [{
-        role: 'user',
-        content: `以下の質問から、論文検索に使用する日本語キーワードを2〜3個抽出してください。
-キーワードのみをカンマ区切りで出力してください。説明は不要です。
+      const keywords = await callClaude(
+        `以下の質問から、J-STAGEで産業保健分野の論文を検索するための日本語キーワードを1〜3個抽出してください。\nカンマ区切りで出力し、それ以外は何も出力しないでください。\n\n質問: ${query}`,
+        100
+      );
+      return { statusCode: 200, headers, body: JSON.stringify({ keywords: keywords.trim() }) };
+    }
+
+    // --- 回答生成 ---
+    if (action === 'summarize') {
+      const articleList = (articles || [])
+        .map((a, i) => `${i + 1}. ${a.title}（${a.journal || ''} ${a.year || ''}年 ${a.volume || ''}巻）\n   ${a.link || ''}`)
+        .join('\n');
+
+      const answer = await callClaude(
+        `あなたは産業保健の専門家です。以下の質問について、見つかった論文リストを参考に実務者向けに回答してください。
 
 質問: ${query}
 
-出力例: ストレスチェック, メンタルヘルス, 職場`
-      }], 100);
-      
-      if (response.error) {
-        throw new Error(response.error.message);
-      }
-      
-      const keywords = extractText(response).trim();
-      console.log('Extracted keywords:', keywords);
-      
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ keywords })
-      };
-    }
-    
-    // アクション2: 論文をまとめて回答生成（公的資料もWeb検索）
-    if (action === 'summarize') {
-      console.log('Summarizing with', articles?.length || 0, 'articles');
-      
-      let articlesContext = '';
-      if (articles && articles.length > 0) {
-        articlesContext = '\n\n【検索された論文】\n';
-        articles.slice(0, 5).forEach((r, i) => {
-          articlesContext += `\n${i + 1}. ${r.title}\n`;
-          articlesContext += `   雑誌: ${r.journal} ${r.year}年\n`;
-          if (r.abstract) articlesContext += `   抄録: ${r.abstract.substring(0, 150)}...\n`;
-        });
-      }
-      
-      // Web検索付きでClaude APIを呼び出し（厚労省1回のみ）
-      const requestBody = JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        tools: [
-          {
-            type: 'web_search_20250305',
-            name: 'web_search',
-            max_uses: 1
-          }
-        ],
-        messages: [{
-          role: 'user',
-          content: `産業保健の専門家として回答してください。
+見つかった論文:
+${articleList || 'なし'}
 
-【質問】${query}
+回答ルール:
+- まず質問への概要回答を2〜3文で述べる
+- 主要ポイントを箇条書きで整理
+- 実務での活用ポイントがあれば追記
+- 日本語で、簡潔で実用的な文体
+- 論文が見つからない場合は一般知識で回答し、その旨を明記`,
+        1500
+      );
 
-${articlesContext}
-
-【指示】
-1. 厚生労働省(mhlw.go.jp)で関連情報を検索
-2. 論文と公的資料を統合して回答（400-600字）
-
-【回答パターン】質問に応じて適切な構造を選ぶ
-・「現状と対策」「〜について教えて」→ ■現状 ■対策 の構造
-・「論文を教えて」「研究はある？」→ 論文を箇条書きで紹介し、各論文の要点を説明
-・「〜とは」「定義は？」→ 定義を最初に述べ、背景・実務での扱いを説明
-・「方法」「手順」「どうすれば」→ 番号付きステップ形式（1. 2. 3.）
-・「比較」「違い」→ 表形式か対比構造で説明
-・「義務？」「法律は？」→ 根拠法令を明示し、罰則や届出要件を具体的に
-・「いつから」「期限は」→ 日付・期間を冒頭で明示
-・自由質問・雑談 → 見出しなしで自然な文章
-
-【文章ルール】※厳守
-・1文は短く（50字以内目安）。1文に1つの情報だけ入れる
-・接続詞（〜が、〜ので）で長くつなげない。文を分ける
-・二重否定は使わない（×届け出なければならない → ○届け出てください）
-・受身形・使役形は避ける（×提出された → ○提出しました）
-・敬語は「です・ます」に統一。尊敬語・謙譲語は避ける
-・曖昧な表現を避け具体的に（×なるべく早く → ○3日以内に）
-・専門用語はそのまま使ってOK。ただし必要なら〈 〉で補足
-
-【表記ルール】
-・見出しは「■」を使う（「##」「###」は使わない）
-・太字「**」は使わない
-・箇条書きは「・」を使う
-・手順は「1. 2. 3.」を使う
-・参考URLは最後にまとめる`
-        }]
-      });
-      
-      const options = {
-        hostname: 'api.anthropic.com',
-        path: '/v1/messages',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01'
-        }
-      };
-      
-      const response = await new Promise((resolve, reject) => {
-        const req = https.request(options, (res) => {
-          res.setEncoding('utf8');
-          let data = '';
-          res.on('data', chunk => data += chunk);
-          res.on('end', () => {
-            try {
-              resolve(JSON.parse(data));
-            } catch (e) {
-              reject(e);
-            }
-          });
-        });
-        req.on('error', reject);
-        req.write(requestBody);
-        req.end();
-      });
-      
-      if (response.error) {
-        throw new Error(response.error.message);
-      }
-      
-      const answer = extractText(response);
-      
-      const sources = (articles || []).slice(0, 5).map(r => ({
-        title: r.title,
-        link: r.link,
-        type: '📄 論文',
-        meta: `${r.journal} ${r.year}年`
+      const sources = (articles || []).slice(0, 5).map(a => ({
+        title: a.title,
+        link: a.link,
+        type: a.journal || '',
+        meta: a.year ? `${a.year}年 ${a.volume || ''}巻` : ''
       }));
-      
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ answer, sources })
-      };
+
+      return { statusCode: 200, headers, body: JSON.stringify({ answer, sources }) };
     }
-    
-    return {
-      statusCode: 400,
-      headers,
-      body: JSON.stringify({ error: 'Invalid action. Use "extract_keywords" or "summarize"' })
-    };
-    
+
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Unknown action' }) };
   } catch (e) {
-    console.error('Error:', e);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: e.message })
-    };
+    console.error(e);
+    return { statusCode: 500, headers, body: JSON.stringify({ error: e.message }) };
   }
 };
