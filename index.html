@@ -355,7 +355,7 @@
           <span class="nav-dot" style="background:var(--cyan);"></span>
           <span>画像</span>
         </a>
-        <a class="nav-item" data-view="search">
+        <a class="nav-item" href="https://courageous-taiyaki-c07a9a.netlify.app/" target="_blank" rel="noopener noreferrer">
           <span class="nav-dot" style="background:var(--accent-2);"></span>
           <span>検索</span>
         </a>
@@ -396,7 +396,7 @@
           <div class="card-icon"><span class="iconify" data-icon="fluent:folder-open-24-regular"></span></div>
           <div class="card-title">制作物保存</div>
         </a>
-        <a class="card card--search" data-nav="search">
+        <a class="card card--search" href="https://courageous-taiyaki-c07a9a.netlify.app/" target="_blank" rel="noopener noreferrer">
           <div class="card-icon"><span class="iconify" data-icon="fluent:search-24-regular"></span></div>
           <div class="card-title">検索</div>
         </a>
@@ -631,6 +631,7 @@
     function navigateTo(viewName) {
       if (directLinks[viewName]) {
         window.open(directLinks[viewName], '_blank');
+        // 外部リンクの場合はハッシュを変更せず、現在のビューを維持する
         return;
       }
       location.hash = viewName === 'home' ? '' : viewName;
