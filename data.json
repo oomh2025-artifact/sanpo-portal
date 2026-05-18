@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-11 00:25",
+  "updated": "2026-05-18 00:27",
   "journals": [
     {
       "id": "sangyoeisei",
@@ -148,6 +148,48 @@
       "desc": "産業医・産業保健専門職向けの実務に役立つ総説・解説誌。",
       "articles": [
         {
+          "title": "産業医・産業医教育の歴史と産業医性の変化",
+          "authors": [
+            "浜口 伝博"
+          ],
+          "volume": "39",
+          "number": "1",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_1/_article/-char/ja/"
+        },
+        {
+          "title": "リワーク支援の現在と課題：就労継続と安全なキャリア発展を支える次世代のリワーク支援をめざして",
+          "authors": [
+            "秋山 剛",
+            "荒井 美帆"
+          ],
+          "volume": "39",
+          "number": "1",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_37/_article/-char/ja/"
+        },
+        {
+          "title": "肝がん予防につながる肝炎・肝機能障害等の対策について",
+          "authors": [
+            "是永 匡紹",
+            "立道 昌幸"
+          ],
+          "volume": "39",
+          "number": "1",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_78/_article/-char/ja/"
+        },
+        {
+          "title": "【投稿論文】 職場の不作法や礼儀正しさと従業員の健康との関連",
+          "authors": [
+            "武藤 孝司"
+          ],
+          "volume": "39",
+          "number": "1",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_97/_article/-char/ja/"
+        },
+        {
           "title": "労働衛生保護具とその適切な使用",
           "authors": [
             "上福元 清隆",
@@ -158,51 +200,6 @@
           "number": "3",
           "year": "2025",
           "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_101/_article/-char/ja/"
-        },
-        {
-          "title": "ワーク・エンゲイジメント：研究と実践における最近10年の動向",
-          "authors": [
-            "島津 明人"
-          ],
-          "volume": "37",
-          "number": "3",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_121/_article/-char/ja/"
-        },
-        {
-          "title": "カドミウムの産業衛生上の健康影響と労働衛生管理",
-          "authors": [
-            "星野 賢人",
-            "角田 正史"
-          ],
-          "volume": "37",
-          "number": "3",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_143/_article/-char/ja/"
-        },
-        {
-          "title": "組織の公正と従業員の健康",
-          "authors": [
-            "武藤 孝司"
-          ],
-          "volume": "38",
-          "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_1/_article/-char/ja/"
-        },
-        {
-          "title": "健康状態や働き方と労働災害との関係について",
-          "authors": [
-            "永田 智久",
-            "小笠原 彩菜",
-            "山本 彩加",
-            "簑原 里奈",
-            "森 貴大"
-          ],
-          "volume": "38",
-          "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_30/_article/-char/ja/"
         }
       ]
     },
