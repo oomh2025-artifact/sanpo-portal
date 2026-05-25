@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-18 00:27",
+  "updated": "2026-05-25 00:29",
   "journals": [
     {
       "id": "sangyoeisei",
@@ -9,62 +9,64 @@
       "desc": "産業保健・労働衛生分野の原著論文、総説、症例報告などを掲載。国内最大の産業保健専門誌。",
       "articles": [
         {
-          "title": "予防・臨床医学理論と実践体系におけるアレルギー・免疫毒性制御：2．現代社会を取り巻く環境因子と気管支喘息発症メカニズム",
+          "title": "使い捨て式防じんマスクに対するフィットテスト用サンプリング方法の比較検討（2）",
           "authors": [
-            "日本産業衛生学会アレルギー・免疫毒性研究会",
-            "久田 剛志",
-            "西村 泰光",
-            "土橋 邦生",
-            "吉田 貴彦"
+            "大島 崚太郎",
+            "大河内 博",
+            "久保田 裕仁"
           ],
-          "volume": "67",
+          "volume": "68",
           "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_2024-009-A/_article/-char/ja/"
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/68/1/68_2025-013-B/_article/-char/ja/"
         },
         {
-          "title": "職域での動脈硬化性疾患リスク値（久山町研究スコア）運用についての検討",
+          "title": "在宅勤務者における運動機能向上を目的とした多要素介入プログラムの検討：フィージビリティスタディ",
           "authors": [
-            "黒木 和志郎",
-            "由良 冴希子",
-            "森山 和郎",
-            "津田 恵理",
-            "吉田 直樹"
+            "中村 睦美",
+            "塩満 智子",
+            "Kim Jihoon",
+            "川原 瑞希",
+            "宮崎 祐介"
           ],
-          "volume": "67",
+          "volume": "68",
           "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_2024-022-B/_article/-char/ja/"
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/68/1/68_2025-021-C/_article/-char/ja/"
         },
         {
           "title": "SANGYO EISEIGAKU ZASSHI",
           "authors": [],
-          "volume": "67",
+          "volume": "68",
           "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/1/67_Info/_article/-char/ja/"
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/68/1/68_Info/_article/-char/ja/"
         },
         {
-          "title": "病気休職の業種間比較：JILPTデータ・アーカイブを用いた横断研究",
+          "title": "大学医学部の労働者の認識する職場ダイバーシティ推進ニーズ：質的・量的方法を併用した断面研究",
           "authors": [
-            "須賀 弘篤",
-            "北原 照代",
-            "辻村 裕次"
+            "日高 友郎",
+            "各務 竹康",
+            "小宮 ひろみ"
           ],
-          "volume": "67",
+          "volume": "68",
           "number": "2",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/2/67_2024-006-B/_article/-char/ja/"
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/68/2/68_2023-035-E/_article/-char/ja/"
         },
         {
-          "title": "金属加工労働者における皮膚疾患の業務起因性",
+          "title": "職域におけるがん検診",
           "authors": [
-            "熊谷 信二"
+            "岡田 結生子",
+            "雑賀 公美子",
+            "立道 昌幸",
+            "岡村 智教",
+            "齊藤 英子"
           ],
-          "volume": "67",
+          "volume": "68",
           "number": "2",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/67/2/67_2024-029-D/_article/-char/ja/"
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/sangyoeisei/68/2/68_2025-022-S/_article/-char/ja/"
         }
       ]
     },
@@ -148,48 +150,6 @@
       "desc": "産業医・産業保健専門職向けの実務に役立つ総説・解説誌。",
       "articles": [
         {
-          "title": "産業医・産業医教育の歴史と産業医性の変化",
-          "authors": [
-            "浜口 伝博"
-          ],
-          "volume": "39",
-          "number": "1",
-          "year": "2026",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_1/_article/-char/ja/"
-        },
-        {
-          "title": "リワーク支援の現在と課題：就労継続と安全なキャリア発展を支える次世代のリワーク支援をめざして",
-          "authors": [
-            "秋山 剛",
-            "荒井 美帆"
-          ],
-          "volume": "39",
-          "number": "1",
-          "year": "2026",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_37/_article/-char/ja/"
-        },
-        {
-          "title": "肝がん予防につながる肝炎・肝機能障害等の対策について",
-          "authors": [
-            "是永 匡紹",
-            "立道 昌幸"
-          ],
-          "volume": "39",
-          "number": "1",
-          "year": "2026",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_78/_article/-char/ja/"
-        },
-        {
-          "title": "【投稿論文】 職場の不作法や礼儀正しさと従業員の健康との関連",
-          "authors": [
-            "武藤 孝司"
-          ],
-          "volume": "39",
-          "number": "1",
-          "year": "2026",
-          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/39/1/39_97/_article/-char/ja/"
-        },
-        {
           "title": "労働衛生保護具とその適切な使用",
           "authors": [
             "上福元 清隆",
@@ -200,6 +160,51 @@
           "number": "3",
           "year": "2025",
           "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_101/_article/-char/ja/"
+        },
+        {
+          "title": "ワーク・エンゲイジメント：研究と実践における最近10年の動向",
+          "authors": [
+            "島津 明人"
+          ],
+          "volume": "37",
+          "number": "3",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_121/_article/-char/ja/"
+        },
+        {
+          "title": "カドミウムの産業衛生上の健康影響と労働衛生管理",
+          "authors": [
+            "星野 賢人",
+            "角田 正史"
+          ],
+          "volume": "37",
+          "number": "3",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/37/3/37_143/_article/-char/ja/"
+        },
+        {
+          "title": "組織の公正と従業員の健康",
+          "authors": [
+            "武藤 孝司"
+          ],
+          "volume": "38",
+          "number": "1",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_1/_article/-char/ja/"
+        },
+        {
+          "title": "健康状態や働き方と労働災害との関係について",
+          "authors": [
+            "永田 智久",
+            "小笠原 彩菜",
+            "山本 彩加",
+            "簑原 里奈",
+            "森 貴大"
+          ],
+          "volume": "38",
+          "number": "1",
+          "year": "2025",
+          "link": "https://www.jstage.jst.go.jp/article/ohpfrev/38/1/38_30/_article/-char/ja/"
         }
       ]
     },
