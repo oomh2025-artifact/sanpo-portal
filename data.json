@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-25 00:29",
+  "updated": "2026-06-01 00:31",
   "journals": [
     {
       "id": "sangyoeisei",
@@ -324,6 +324,17 @@
           "number": "2",
           "year": "2025",
           "link": "https://www.jstage.jst.go.jp/article/jaohn/12/2/12_28/_article/-char/ja/"
+        },
+        {
+          "title": "訪問看護師における疲労蓄積度に影響する職場関連要因",
+          "authors": [
+            "小川 有希子",
+            "西田 和子"
+          ],
+          "volume": "13",
+          "number": "1",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/jaohn/13/1/13_1/_article/-char/ja/"
         }
       ]
     },
