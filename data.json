@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02 03:29",
+  "updated": "2026-11-09 03:43",
   "journals": [
     {
       "id": "sangyoeisei",
@@ -344,66 +344,62 @@
       "desc": "産業保健と法律の接点を扱う専門誌。労働安全衛生法、労災認定など。",
       "articles": [
         {
-          "title": "労働の「オン」と「オフ」の境界線",
+          "title": "多職種で考える職場のアルコール関連問題",
           "authors": [
-            "安中 繁"
+            "渋谷 純輝",
+            "河西 有奈",
+            "竹口 英伸",
+            "伊東 明雅"
           ],
-          "volume": "4",
-          "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_100/_article/-char/ja/"
+          "volume": "5",
+          "number": "2",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/5/2/5_case_study.26-038/_article/-char/ja/"
         },
         {
-          "title": "安全配慮義務と職場のメンタルヘルスに関する現代的課題",
+          "title": "休職期間満了による退職措置の有効性",
           "authors": [
-            "林 和宏",
-            "鎌田 直樹",
-            "奥山 泰行",
-            "大林 知華子",
-            "湊谷 志貴子"
+            "堀内 聡",
+            "菰口 高志",
+            "上床 輝久"
           ],
-          "volume": "4",
-          "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_105/_article/-char/ja/"
+          "volume": "5",
+          "number": "2",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/5/2/5_case_study.26-039/_article/-char/ja/"
         },
         {
-          "title": "最近の労働衛生行政の動向",
+          "title": "医師の働き方改革に関する法的・実務的な課題と展望",
           "authors": [
-            "佐々木  孝治"
+            "黒澤 一",
+            "三柴 丈典"
           ],
-          "volume": "4",
-          "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_11/_article/-char/ja/"
+          "volume": "5",
+          "number": "2",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/5/2/5_contrib.26-006/_article/-char/ja/"
         },
         {
-          "title": "テレワークの産業保健法上の課題",
+          "title": "キャリア権論と産業保健法学の接点",
           "authors": [
-            "佐藤 乃理子",
-            "日比 友美子",
-            "後藤 みずえ",
-            "増田 陳彦",
-            "渡邊 徹"
+            "諏訪 康雄",
+            "三柴 丈典",
+            "加藤 憲忠"
           ],
-          "volume": "4",
-          "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_114/_article/-char/ja/"
+          "volume": "5",
+          "number": "2",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/5/2/5_dig.26-036/_article/-char/ja/"
         },
         {
-          "title": "副業・兼業における健康管理と法",
+          "title": "三菱重工業事件",
           "authors": [
-            "秋山 陽子",
-            "竹野 佑喜",
-            "宇佐川 邦子",
-            "佐々木 毅",
-            "鎌田 耕一"
+            "林 剛司"
           ],
-          "volume": "4",
-          "number": "1",
-          "year": "2025",
-          "link": "https://www.jstage.jst.go.jp/article/jaohl/4/1/4_119/_article/-char/ja/"
+          "volume": "5",
+          "number": "2",
+          "year": "2026",
+          "link": "https://www.jstage.jst.go.jp/article/jaohl/5/2/5_jpi-jpr.26-040/_article/-char/ja/"
         }
       ]
     }
